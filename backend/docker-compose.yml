@@ -29,9 +29,13 @@ services:
         container_name: local-vault
         ports:
             - '8200:8200'
+        volumes:
+            - vault_data:/vault/file
         environment:
             VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_ROOT_TOKEN} # Static token used ONLY for local dev
             VAULT_DEV_LISTEN_ADDRESS: '0.0.0.0:8200'
         cap_add:
             - IPC_LOCK # Prevents Vault from swapping memory to disk (good security practice)
 
+volumes:
+    vault_data:
