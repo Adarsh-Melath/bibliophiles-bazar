@@ -1,0 +1,23 @@
+spring:
+    application:
+        name: bibliophiles-bazar
+    jpa:
+        hibernate:
+            ddl-auto: updateq
+            
+        show-sql: false
+    # Docker Profile configurations
+
+    config:
+        import: "vault://"
+        activate:
+            on-profile: docker
+    cloud:
+        vault:
+            uri: ${VAULT_URI:http://localhost:8200}
+            token: ${VAULT_TOKEN:root}
+            kv:
+                enabled: true
+                backend: secret # Sets up standard Vault Key-Value engine path
+                default-context: "bibliophiles-bazar" 
+
