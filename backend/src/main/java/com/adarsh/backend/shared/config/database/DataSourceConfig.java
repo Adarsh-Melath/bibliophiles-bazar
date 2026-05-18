@@ -1,14 +1,15 @@
 package com.adarsh.backend.shared.config.database;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableConfigurationProperties(DatabaseSecrets.class)
 public class DataSourceConfig {
+
     private final DatabaseSecrets secrets;
 
     public DataSourceConfig(DatabaseSecrets secrets) {
@@ -16,17 +17,14 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public javax.sql.DataSource dataSource() {
+    public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
 
         // These values are cleanly populated by Vault at boot runtime!
-        dataSource.setJdbcUrl(secrets.getUrl());
-        dataSource.setUsername(secrets.getUsername());
-        dataSource.setPassword(secrets.getPassword());
-
-        if (secrets.getDriverClassName() != null && !secrets.getDriverClassName().isBlank()) {
-            dataSource.setDriverClassName(secrets.getDriverClassName());
-        }
+        dataSource.setJdbcUrl(secrets.url());
+        dataSource.setUsername(secrets.username());
+        dataSource.setPassword(secrets.password());
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
         return dataSource;
     }
