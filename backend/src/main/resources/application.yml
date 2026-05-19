@@ -16,9 +16,10 @@ spring:
             fail-fast: true
 
     datasource:
-        url: ${vault.db.url}
-        username: ${vault.db.username}
-        password: ${vault.db.password}
+        # Use ":-" syntax to provide a default fallback value if the property is missing
+        url: ${vault.db.url:jdbc:mysql://localhost:3306/bibliophiles-bazar}
+        username: ${vault.db.username:root}
+        password: ${vault.db.password:password}
         driver-class-name: com.mysql.cj.jdbc.Driver
         hikari:
             connection-timeout: 30000
