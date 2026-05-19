@@ -3,7 +3,7 @@ spring:
         name: bibliophiles-bazar
 
     config:
-        import: vault://secret/bibliophiles-bazar
+        import: optional:vault://secret/bibliophiles-bazar
 
     cloud:
         vault:
