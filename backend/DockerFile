@@ -1,5 +1,10 @@
-FROM eclipse-temurin:17-jdk 
-VOLUME /backend 
-COPY target/backend-0.0.1-SNAPSHOT.jar app.jar 
-EXPOSE 8080 
+# backend/DockerFile
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY . .
+RUN mvn clean package -f backend/pom.xml
+
+FROM eclipse-temurin:17-jdk
+COPY --from=builder /app/backend/target/backend-0.0.1-SNAPSHOT.jar /app.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
