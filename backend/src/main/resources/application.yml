@@ -1,18 +1,32 @@
 spring:
     application:
         name: bibliophiles-bazar
-    jpa:
-        hibernate:
-            ddl-auto: update
-        show-sql: false
+
     config:
-        import: "vault://"
+        import: vault://secret/bibliophiles-bazar
+
     cloud:
         vault:
             uri: ${VAULT_URI:http://localhost:8200}
             token: ${VAULT_TOKEN:root}
             kv:
                 enabled: true
-                backend: secret # Sets up standard Vault Key-Value engine path
-                default-context: "bibliophiles-bazar" 
+                backend: secret
+                default-context: bibliophiles-bazar
+            fail-fast: true
 
+    datasource:
+        url: ${vault.db.url}
+        username: ${vault.db.username}
+        password: ${vault.db.password}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        hikari:
+            connection-timeout: 30000
+            maximum-pool-size: 10
+            minimum-idle: 5
+
+    jpa:
+        hibernate:
+            ddl-auto: update
+        database-platform: org.hibernate.dialect.MySQLDialect
+        show-sql: false
