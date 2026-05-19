@@ -28,6 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
+      working-directory: backend
       run: mvn clean install
 
     - uses: mr-smithers-excellent/docker-build-push@v6
