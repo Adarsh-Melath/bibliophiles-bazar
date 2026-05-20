@@ -1,38 +1,37 @@
 package com.adarsh.backend.feature.user.domain.model;
 
-import java.security.AuthProvider;
 import java.time.LocalDateTime;
 
 public class User {
 
     // fields
-    private Long id;
+    private final Long id;
 
-    private String name;
+    private final String name;
 
-    private String email;
+    private final String email;
 
-    private String password;
+    private final String password;
 
-    private String phone;
+    private final String phone;
 
-    private String profileImageUrl;
+    private final String profileImageUrl;
 
-    private Role role;
+    private final Role role;
 
-    private AuthProvider provider;
+    private final AuthProvider provider;
 
-    private boolean enabled;
+    private final boolean enabled;
 
-    private boolean blocked;
+    private final boolean blocked;
 
-    private boolean deleted;
+    private final boolean deleted;
 
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+    private final LocalDateTime updatedAt;
 
-    private LocalDateTime deletedAt;
+    private final LocalDateTime deletedAt;
 
     // 1. Private constructor so it can ONLY be created via the Builder
     private User(Builder builder) {
@@ -110,6 +109,7 @@ public class User {
     }
 
     // 3. The Static Builder Class
+    @SuppressWarnings("unused")
     private static class Builder {
         private Long id;
 
@@ -171,10 +171,12 @@ public class User {
 
         public Builder role(Role role) {
             this.role = role;
+            return this;
         }
 
         public Builder provider(AuthProvider provider) {
             this.provider = provider;
+            return this;
         }
 
         public Builder enabled(boolean enabled) {
