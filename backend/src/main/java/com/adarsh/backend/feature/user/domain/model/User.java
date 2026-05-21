@@ -110,7 +110,7 @@ public class User {
 
     // 3. The Static Builder Class
     @SuppressWarnings("unused")
-    private static class Builder {
+    public static class Builder {
         private Long id;
 
         private String name;
