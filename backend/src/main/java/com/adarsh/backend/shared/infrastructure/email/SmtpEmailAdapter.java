@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class SmtpEmailAdapter implements EmailPort {
     private final JavaMailSender mailSender;
 
+    @Override
     public void execute(String toEmail, String otp) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
