@@ -14,7 +14,7 @@ public class SmtpEmailAdapter implements EmailPort {
     private final JavaMailSender mailSender;
 
     @Override
-    public void execute(String toEmail, String otp) {
+    public void sendOtp(String toEmail, String otp) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
         message.setSubject("The Bibliophile's Bazar -  Email verification");
