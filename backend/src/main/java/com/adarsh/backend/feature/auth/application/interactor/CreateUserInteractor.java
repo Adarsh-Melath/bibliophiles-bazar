@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.adarsh.backend.feature.auth.application.dto.CreateUserCommand;
 import com.adarsh.backend.feature.auth.application.usecase.CreateUserUseCase;
 import com.adarsh.backend.feature.user.application.port.UserCommandRepository;
+
 import com.adarsh.backend.feature.user.domain.model.User;
 import com.adarsh.backend.shared.application.port.EmailPort;
 import com.adarsh.backend.shared.application.port.OtpRepositoryPort;
