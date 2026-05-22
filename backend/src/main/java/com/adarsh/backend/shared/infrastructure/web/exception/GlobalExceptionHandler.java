@@ -8,11 +8,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.adarsh.backend.shared.domain.exception.InvalidOtpException;
+import com.adarsh.backend.shared.domain.exception.OtpNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(OtpNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleOtpNotFoundException(OtpNotFoundException ex, HttpServletRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Not Found",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
 
     @ExceptionHandler(InvalidOtpException.class)
     public ResponseEntity<ErrorResponse> handleInvalidOtpException(InvalidOtpException ex, HttpServletRequest request) {
@@ -23,7 +36,6 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI()
         );
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
