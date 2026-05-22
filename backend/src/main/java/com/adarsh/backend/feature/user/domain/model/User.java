@@ -7,31 +7,31 @@ public class User {
     // fields
     private final Long id;
 
-    private final String name;
-
     private final String email;
-
-    private final String password;
-
-    private final String phone;
-
-    private final String profileImageUrl;
-
-    private final Role role;
-
-    private final AuthProvider provider;
-
-    private final boolean enabled;
-
-    private final boolean blocked;
-
-    private final boolean deleted;
 
     private final LocalDateTime createdAt;
 
-    private final LocalDateTime updatedAt;
+    private String name;
 
-    private final LocalDateTime deletedAt;
+    private String password;
+
+    private String phone;
+
+    private String profileImageUrl;
+
+    private Role role;
+
+    private AuthProvider provider;
+
+    private boolean enabled;
+
+    private boolean blocked;
+
+    private boolean deleted;
+
+    private LocalDateTime updatedAt;
+
+    private LocalDateTime deletedAt;
 
     // 1. Private constructor so it can ONLY be created via the Builder
     private User(Builder builder) {
@@ -213,6 +213,9 @@ public class User {
         public User build() {
             return new User(this);
         }
+    }
 
+    public void enableAccount() {
+        this.enabled = true;
     }
 }
