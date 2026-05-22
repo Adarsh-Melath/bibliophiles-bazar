@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.adarsh.backend.feature.user.domain.exception.EmailNotVerifiedException;
+import com.adarsh.backend.feature.user.domain.exception.InvalidCredentialException;
 import com.adarsh.backend.feature.user.domain.exception.UserBlockedException;
 import com.adarsh.backend.feature.user.domain.exception.UserNotFoundException;
 
@@ -16,41 +17,51 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserBlockedException.class)
-    public ResponseEntity<ErrorResponse> handleUserBlockedException(UserBlockedException ex,
-            HttpServletRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                LocalDateTime.now(),
-                HttpStatus.FORBIDDEN.value(),
-                "FORBIDDEN",
-                ex.getMessage(),
-                request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
-    }
+        @ExceptionHandler(InvalidCredentialException.class)
+        public ResponseEntity<ErrorResponse> handleInvalidCredentialException(InvalidCredentialException ex,
+                        HttpServletRequest request) {
+                ErrorResponse errorResponse = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.UNAUTHORIZED.value(),
+                                "UNAUTHORIZED",
+                                ex.getMessage(),
+                                request.getRequestURI());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+        }
 
-    @ExceptionHandler(EmailNotVerifiedException.class)
-    public ResponseEntity<ErrorResponse> handleEmailNotVerifiedException(EmailNotVerifiedException ex,
-            HttpServletRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
-                "NOT_FOUND",
-                ex.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-    }
+        @ExceptionHandler(UserBlockedException.class)
+        public ResponseEntity<ErrorResponse> handleUserBlockedException(UserBlockedException ex,
+                        HttpServletRequest request) {
+                ErrorResponse errorResponse = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.FORBIDDEN.value(),
+                                "FORBIDDEN",
+                                ex.getMessage(),
+                                request.getRequestURI());
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+        }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex,
-            HttpServletRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
-                "NOT_FOUND",
-                ex.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-    }
+        @ExceptionHandler(EmailNotVerifiedException.class)
+        public ResponseEntity<ErrorResponse> handleEmailNotVerifiedException(EmailNotVerifiedException ex,
+                        HttpServletRequest request) {
+                ErrorResponse errorResponse = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.NOT_FOUND.value(),
+                                "NOT_FOUND",
+                                ex.getMessage(),
+                                request.getRequestURI());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
+
+        @ExceptionHandler(UserNotFoundException.class)
+        public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex,
+                        HttpServletRequest request) {
+                ErrorResponse errorResponse = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.NOT_FOUND.value(),
+                                "NOT_FOUND",
+                                ex.getMessage(),
+                                request.getRequestURI());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
 }
