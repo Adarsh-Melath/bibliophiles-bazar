@@ -1,5 +1,7 @@
 package com.adarsh.backend.feature.auth.application.dto;
 
+import com.adarsh.backend.feature.user.domain.model.User;
+
 public class LoginUserResult {
     private Long id;
     private String name;
@@ -21,47 +23,33 @@ public class LoginUserResult {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getRole() {
         return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getProfileImage() {
         return profileImage;
     }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public LoginUserResult fromDomain(User user) {
+        return new LoginUserResult(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole().name(),
+                user.getProfileImageUrl(),
+                user.getPhone());
     }
 }
