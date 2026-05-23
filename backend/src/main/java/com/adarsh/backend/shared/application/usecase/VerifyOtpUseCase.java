@@ -1,7 +1,8 @@
 package com.adarsh.backend.shared.application.usecase;
 
 import com.adarsh.backend.shared.application.dto.VerifyOtpCommand;
+import com.adarsh.backend.shared.application.dto.VerifyOtpResult;
 
 public interface VerifyOtpUseCase {
-    void execute(VerifyOtpCommand command);
+    VerifyOtpResult execute(VerifyOtpCommand command);
 }
