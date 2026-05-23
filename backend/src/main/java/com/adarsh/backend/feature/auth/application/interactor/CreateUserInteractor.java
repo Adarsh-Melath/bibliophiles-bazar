@@ -1,15 +1,19 @@
 package com.adarsh.backend.feature.auth.application.interactor;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
 import com.adarsh.backend.feature.auth.application.dto.CreateUserCommand;
 import com.adarsh.backend.feature.auth.application.usecase.CreateUserUseCase;
+import com.adarsh.backend.feature.auth.domain.OtpToken;
 import com.adarsh.backend.feature.user.application.port.UserCommandRepository;
 
 import com.adarsh.backend.feature.user.domain.model.User;
 import com.adarsh.backend.shared.application.port.EmailPort;
-import com.adarsh.backend.shared.application.port.OtpRepositoryPort;
+import com.adarsh.backend.shared.application.port.OtpTokenRepository;
 import com.adarsh.backend.shared.domain.OtpGenerator;
+import com.adarsh.backend.shared.domain.OtpToken;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CreateUserInteractor implements CreateUserUseCase {
     private final UserCommandRepository userCommandRepository;
-    private final OtpRepositoryPort otpRepositoryPort;
+    private final OtpTokenRepository otpTokenRepositoryPort;
     private final EmailPort emailPort;
 
     @Override
@@ -34,9 +38,17 @@ public class CreateUserInteractor implements CreateUserUseCase {
                 .password(command.getPassword()).build();
 
         userCommandRepository.save(user);
-        String otp = OtpGenerator.generate6DigitOtp();
-        otpRepositoryPort.saveOtp(command.getEmail(), otp);
+        String code = OtpGenerator.generate6DigitOtp();
 
-        emailPort.sendOtp(command.getEmail(), otp);
+        OtpToken otp = new OtpToken.Builder()
+                .email(command.getEmail())
+                .code(code)
+                .expiresAt(LocalDateTime.now().plusMinutes(5))
+                .build();
+
+        otpTokenRepositoryPort.deleteOtpByEmail(command.getEmail());
+        otpTokenRepositoryPort.save(otp);
+
+        emailPort.sendOtp(command.getEmail(), code);
     }
 }
