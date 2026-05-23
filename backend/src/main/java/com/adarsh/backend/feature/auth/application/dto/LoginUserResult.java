@@ -43,7 +43,7 @@ public class LoginUserResult {
         return phone;
     }
 
-    public LoginUserResult fromDomain(User user) {
+    public static LoginUserResult fromDomain(User user) {
         return new LoginUserResult(
                 user.getId(),
                 user.getName(),
