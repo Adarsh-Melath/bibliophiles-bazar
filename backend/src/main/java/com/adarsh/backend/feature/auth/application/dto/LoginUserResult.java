@@ -3,12 +3,12 @@ package com.adarsh.backend.feature.auth.application.dto;
 import com.adarsh.backend.feature.user.domain.model.User;
 
 public class LoginUserResult {
-    private Long id;
-    private String name;
-    private String email;
-    private String role;
-    private String profileImage;
-    private String phone;
+    private final Long id;
+    private final String name;
+    private final String email;
+    private final String role;
+    private final String profileImage;
+    private final String phone;
 
     public LoginUserResult(Long id, String name, String email, String role, String profileImage, String phone) {
         this.id = id;
