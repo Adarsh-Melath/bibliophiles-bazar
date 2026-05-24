@@ -1,5 +1,6 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
     <property name="LOG_PATH" value="logs" />
     <property name="LOG_FILE" value="${LOG_PATH}/application.log" />
 
@@ -15,6 +16,7 @@
     </appender>
 
     <root level="INFO">
+        <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </root>
 </configuration>
