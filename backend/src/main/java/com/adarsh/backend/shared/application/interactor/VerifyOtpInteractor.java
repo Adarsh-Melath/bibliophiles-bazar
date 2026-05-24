@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class VerifyOtpInteractor implements VerifyOtpUseCase {
     private final OtpTokenRepository otpRepositoryPort;
     private final UserCommandRepository userCommandRepository;
