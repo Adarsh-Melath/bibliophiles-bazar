@@ -10,7 +10,6 @@ import com.adarsh.backend.feature.user.application.port.UserCommandRepository;
 import com.adarsh.backend.feature.user.domain.exception.UserNotFoundException;
 import com.adarsh.backend.feature.user.domain.model.User;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
