@@ -1,10 +1,11 @@
 package com.adarsh.backend.feature.auth.application.interactor;
 
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.adarsh.backend.feature.auth.application.dto.VerifyResetOtpCommand;
+import com.adarsh.backend.feature.auth.application.dto.VerifyResetOtpResult;
+import com.adarsh.backend.feature.auth.application.port.PasswordResetTokenPort;
 import com.adarsh.backend.feature.auth.application.usecase.VerifyResetOtpUseCase;
 import com.adarsh.backend.shared.application.port.OtpTokenRepository;
 import com.adarsh.backend.shared.domain.OtpToken;
@@ -18,9 +19,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class VerifyResetOtpInteractor implements VerifyResetOtpUseCase {
     private final OtpTokenRepository otpTokenRepository;
+    private final PasswordResetTokenPort passwordResetTokenPort;
 
     @Override
-    public String execute(VerifyResetOtpCommand command) {
+    public VerifyResetOtpResult execute(VerifyResetOtpCommand command) {
         OtpToken otp = otpTokenRepository.getLatestOtpByEmail(command.getEmail())
                 .orElseThrow(() -> new OtpNotFoundException("OTP not found"));
 
@@ -29,10 +31,12 @@ public class VerifyResetOtpInteractor implements VerifyResetOtpUseCase {
         if (!otp.getCode().equals(command.getCode())) {
             throw new InvalidOtpException("Invalid OTP");
         }
-        String resetToken = UUID.randomUUID().toString();
 
-        otp.generateResetToken(resetToken);
-        otpTokenRepository.save(otp);
-        return resetToken;
+        // 2. Cleanup: Delete the OTP so it cannot be reused
+        otpTokenRepository.deleteOtpByEmail(command.getEmail());
+
+        // 3. Generate the secure JWT for the next step
+        String resetJwt = passwordResetTokenPort.generateResetToken(command.getEmail());
+        return new VerifyResetOtpResult(resetJwt);
     }
 }
