@@ -2,6 +2,9 @@ package com.adarsh.backend.shared.application.interactor;
 
 import org.springframework.stereotype.Service;
 
+import com.adarsh.backend.feature.auth.application.port.RefreshTokenRepository;
+import com.adarsh.backend.feature.auth.domain.RefreshToken;
+import com.adarsh.backend.feature.auth.domain.RefreshTokenGenerator;
 import com.adarsh.backend.feature.user.application.port.UserCommandRepository;
 import com.adarsh.backend.feature.user.domain.exception.UserNotFoundException;
 import com.adarsh.backend.feature.user.domain.model.User;
@@ -10,11 +13,8 @@ import com.adarsh.backend.shared.application.dto.VerifyOtpCommand;
 import com.adarsh.backend.shared.application.dto.VerifyOtpResult;
 import com.adarsh.backend.shared.application.port.JwtUtilPort;
 import com.adarsh.backend.shared.application.port.OtpTokenRepository;
-import com.adarsh.backend.shared.application.port.RefreshTokenRepository;
 import com.adarsh.backend.shared.application.usecase.VerifyOtpUseCase;
 import com.adarsh.backend.shared.domain.OtpToken;
-import com.adarsh.backend.shared.domain.RefreshToken;
-import com.adarsh.backend.shared.domain.RefreshTokenGenerator;
 import com.adarsh.backend.shared.domain.exception.InvalidOtpException;
 import com.adarsh.backend.shared.domain.exception.OtpExpiredException;
 import com.adarsh.backend.shared.domain.exception.OtpNotFoundException;
