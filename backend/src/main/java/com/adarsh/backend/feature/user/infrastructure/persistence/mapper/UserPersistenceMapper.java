@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import com.adarsh.backend.feature.user.domain.model.User;
 import com.adarsh.backend.feature.user.infrastructure.persistence.entity.UserEntity;
 
-@Mapper
+@Mapper(componentModel="spring")
 public interface UserPersistenceMapper {
     User toDomain(UserEntity entity);
 
