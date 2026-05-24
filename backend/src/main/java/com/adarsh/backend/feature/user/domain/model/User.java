@@ -108,6 +108,10 @@ public class User {
         return deletedAt;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     // 3. The Static Builder Class
     @SuppressWarnings("unused")
     public static class Builder {
