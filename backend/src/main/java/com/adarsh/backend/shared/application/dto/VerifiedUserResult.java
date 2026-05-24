@@ -3,12 +3,12 @@ package com.adarsh.backend.shared.application.dto;
 import com.adarsh.backend.feature.user.domain.model.User;
 
 public class VerifiedUserResult {
-    private Long id;
-    private String name;
-    private String email;
-    private String role;
-    private String profileImage;
-    private String phone;
+    private final Long id;
+    private final String name;
+    private final String email;
+    private final String role;
+    private final String profileImage;
+    private final String phone;
 
     public VerifiedUserResult(Long id, String name, String email, String role, String profileImage, String phone) {
         this.id = id;
