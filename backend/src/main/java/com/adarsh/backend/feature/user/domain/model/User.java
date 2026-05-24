@@ -218,4 +218,8 @@ public class User {
     public void enableAccount() {
         this.enabled = true;
     }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }
