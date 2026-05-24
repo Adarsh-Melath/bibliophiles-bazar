@@ -22,4 +22,17 @@ public class LoginResult {
     public LoginUserResult getUser() {
         return user;
     }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void setUser(LoginUserResult user) {
+        this.user = user;
+    }
+
 }
