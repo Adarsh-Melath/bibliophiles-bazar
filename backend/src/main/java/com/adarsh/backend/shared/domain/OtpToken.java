@@ -55,6 +55,9 @@ public final class OtpToken {
         return LocalDateTime.now().isAfter(expiresAt);
     }
 
+    public static Builder builder(){
+        return new Builder();
+    }
     @SuppressWarnings("unused")
     public static class Builder {
         private Long id;
