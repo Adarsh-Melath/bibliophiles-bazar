@@ -17,7 +17,7 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtPasswordResetAdapter implements PasswordResetTokenPort {
-    @Value("${jwt.secret}")
+    @Value("${app.jwt.secret}")
     private String secretKey;
 
     private static final long EXPIRATION_TIME = (long)15 * 60 * 1000; // 15 minutes in milliseconds

@@ -2,6 +2,7 @@ package com.adarsh.backend.shared.infrastructure.security;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.adarsh.backend.shared.application.port.JwtUtilPort;
@@ -9,13 +10,15 @@ import com.adarsh.backend.shared.application.port.JwtUtilPort;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil implements JwtUtilPort {
+    @Value("${app.jwt.secret}")
     private String jwtSecret;
 
+    @Value("${app.jwt.expiration}")
     private long expiration;
 
     @Override
