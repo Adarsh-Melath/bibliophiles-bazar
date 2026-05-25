@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 import com.adarsh.backend.feature.auth.application.dto.LoginCommand;
 import com.adarsh.backend.feature.auth.application.dto.LoginResult;
 import com.adarsh.backend.feature.auth.application.dto.LoginUserResult;
+import com.adarsh.backend.feature.auth.application.port.RefreshTokenRepository;
 import com.adarsh.backend.feature.auth.application.usecase.LoginUseCase;
+import com.adarsh.backend.feature.auth.domain.RefreshToken;
+import com.adarsh.backend.feature.auth.domain.RefreshTokenGenerator;
 import com.adarsh.backend.feature.user.application.port.UserCommandRepository;
 import com.adarsh.backend.feature.user.domain.exception.EmailNotVerifiedException;
 import com.adarsh.backend.feature.user.domain.exception.InvalidCredentialException;
@@ -14,9 +17,6 @@ import com.adarsh.backend.feature.user.domain.exception.UserBlockedException;
 import com.adarsh.backend.feature.user.domain.exception.UserNotFoundException;
 import com.adarsh.backend.feature.user.domain.model.User;
 import com.adarsh.backend.shared.application.port.JwtUtilPort;
-import com.adarsh.backend.shared.application.port.RefreshTokenRepository;
-import com.adarsh.backend.shared.domain.RefreshToken;
-import com.adarsh.backend.shared.domain.RefreshTokenGenerator;
 
 import lombok.RequiredArgsConstructor;
 
