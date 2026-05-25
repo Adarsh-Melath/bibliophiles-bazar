@@ -8,6 +8,10 @@ public class RefreshToken {
     private final String email;
     private final LocalDateTime expiresAt;
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public RefreshToken(Builder builder) {
         this.id = builder.id;
         this.token = builder.token;
@@ -35,7 +39,7 @@ public class RefreshToken {
         return LocalDateTime.now().isAfter(expiresAt);
     }
 
-    public static class Builder{
+    public static class Builder {
         private Long id;
         private String token;
         private String email;
