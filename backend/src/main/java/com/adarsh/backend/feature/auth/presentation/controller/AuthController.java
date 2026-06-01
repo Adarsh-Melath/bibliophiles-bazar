@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +41,7 @@ public class AuthController {
     private final ResetPasswordUseCase resetPasswordUseCase;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(CreateUserCommand command) {
+    public ResponseEntity<String> register(@RequestBody CreateUserCommand command) {
         createUserUseCase.execute(command);
         return ResponseEntity.status(HttpStatus.OK).body("Registration successful. Check your email for OTP.");
     }
