@@ -38,15 +38,15 @@ spring:
     mail:
         host: smtp.gmail.com
         port: 587
-        username: ${MAIL_USERNAME}
-        password: ${MAIL_PASSWORD}
+        username:bibliophilesbazar@gmail.com
+        password: 
         properties:
             '[mail.smtp.auth]': true
             '[mail.smtp.starttls.enable]': true
 
 app:
     jwt:
-        secret: ${JWT_SECRET}
+        secret: JWT_SECRET=B1b1l0ph1l3sBaz4r$3cr3tK3y2024!XyZ@9
         expiration: 900000 # 15 minutes
         refresh-expiration: 604800000 # 7 days
         frontend-url: http://localhost:5174
