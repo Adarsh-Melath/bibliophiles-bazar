@@ -21,6 +21,9 @@ public class CreateUserCommand {
         if (password.length() < 8) {
             throw new IllegalArgumentException("Password must be at least 8 characters");
         }
+
+        this.name=name;
+        this.email=email;
     }
 
     public String getName() {
