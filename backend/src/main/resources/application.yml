@@ -22,8 +22,7 @@ spring:
         # password: ${vault.db.password:password}
         url: jdbc:mysql://localhost:3306/bibliophiles_bazar
         username: root
-        password: adarshmelath1305_
-        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: adarshmelath12
         hikari:
             connection-timeout: 30000
             maximum-pool-size: 10
