@@ -38,8 +38,8 @@ spring:
     mail:
         host: smtp.gmail.com
         port: 587
-        username:bibliophilesbazar@gmail.com
-        password: 
+        username: bibliophilesbazar@gmail.com
+        password: nadiydwosshjdguv
         properties:
             '[mail.smtp.auth]': true
             '[mail.smtp.starttls.enable]': true
