@@ -1,10 +1,13 @@
 package com.adarsh.backend.feature.auth.application.dto;
 
 public class VerifyResetOtpResult {
-    String resetToken;
+    private String resetToken;
 
     public VerifyResetOtpResult(String resetToken) {
         this.resetToken = resetToken;
     }
 
+    public String  getResetToken(){
+        return resetToken;
+    }
 }
