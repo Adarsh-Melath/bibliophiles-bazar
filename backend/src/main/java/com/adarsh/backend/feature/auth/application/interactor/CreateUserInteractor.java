@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.adarsh.backend.feature.auth.application.dto.CreateUserCommand;
 import com.adarsh.backend.feature.auth.application.usecase.CreateUserUseCase;
 import com.adarsh.backend.feature.user.application.port.UserCommandRepository;
+import com.adarsh.backend.feature.user.domain.model.AuthProvider;
+import com.adarsh.backend.feature.user.domain.model.Role;
 
 import com.adarsh.backend.feature.user.domain.model.User;
 import com.adarsh.backend.shared.application.port.EmailPort;
@@ -34,7 +36,7 @@ public class CreateUserInteractor implements CreateUserUseCase {
         User user = new User.Builder()
                 .name(command.getName())
                 .email(command.getEmail())
-                .password(command.getPassword()).build();
+                .password(command.getPassword()).role(Role.USER).provider(AuthProvider.LOCAL).build();
 
         userCommandRepository.save(user);
         String code = OtpGenerator.generate6DigitOtp();
