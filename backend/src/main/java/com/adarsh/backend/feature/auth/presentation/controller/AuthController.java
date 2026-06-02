@@ -47,7 +47,7 @@ public class AuthController {
     }
 
     @PostMapping("/verify-otp")
-    public ResponseEntity<VerifyOtpResult> verifyOtp(VerifyOtpCommand command) {
+    public ResponseEntity<VerifyOtpResult> verifyOtp(@RequestBody VerifyOtpCommand command) {
         return ResponseEntity.status(HttpStatus.OK).body(verifyOtpUseCase.execute(command));
     }
 
