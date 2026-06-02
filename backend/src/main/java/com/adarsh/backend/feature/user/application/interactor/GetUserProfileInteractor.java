@@ -20,7 +20,7 @@ public class GetUserProfileInteractor implements GetUserProfileUseCase {
         User user = userCommandRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User Not Found"));
 
-        return new GetUserProfilResult(user.getName(), user.getEmail(), user.getRole().name(),
+        return new GetUserProfileResult(user.getName(), user.getEmail(), user.getRole().name(),
                 user.getProfileImageUrl(), user.getPhone());
     }
 
