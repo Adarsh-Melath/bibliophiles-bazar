@@ -13,6 +13,9 @@ public class VerifyOtpCommand {
         if (!email.contains("@")) {
             throw new IllegalArgumentException("Invalid email format");
         }
+
+        this.email=email;
+        this.code=code;
     }
 
     public String getEmail() {
