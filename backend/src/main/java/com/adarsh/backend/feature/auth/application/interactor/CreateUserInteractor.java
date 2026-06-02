@@ -2,6 +2,7 @@ package com.adarsh.backend.feature.auth.application.interactor;
 
 import java.time.LocalDateTime;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.adarsh.backend.feature.auth.application.dto.CreateUserCommand;
@@ -26,6 +27,7 @@ public class CreateUserInteractor implements CreateUserUseCase {
     private final UserCommandRepository userCommandRepository;
     private final OtpTokenRepository otpTokenRepositoryPort;
     private final EmailPort emailPort;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void execute(CreateUserCommand command) {
@@ -36,7 +38,7 @@ public class CreateUserInteractor implements CreateUserUseCase {
         User user = new User.Builder()
                 .name(command.getName())
                 .email(command.getEmail())
-                .password(command.getPassword()).role(Role.USER).provider(AuthProvider.LOCAL).build();
+                .password(passwordEncoder.encode(command.getPassword())).role(Role.USER).provider(AuthProvider.LOCAL).build();
 
         userCommandRepository.save(user);
         String code = OtpGenerator.generate6DigitOtp();
