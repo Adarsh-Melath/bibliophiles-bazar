@@ -52,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResult> login(LoginCommand command, HttpServletResponse response) {
+    public ResponseEntity<LoginResult> login(@RequestBody LoginCommand command, HttpServletResponse response) {
         LoginResult result = loginUsecase.execute(command);
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", result.getRefreshToken()).httpOnly(true)
