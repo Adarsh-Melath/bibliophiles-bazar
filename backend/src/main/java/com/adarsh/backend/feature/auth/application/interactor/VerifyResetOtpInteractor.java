@@ -2,6 +2,7 @@ package com.adarsh.backend.feature.auth.application.interactor;
 
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.adarsh.backend.feature.auth.application.dto.VerifyResetOtpCommand;
 import com.adarsh.backend.feature.auth.application.dto.VerifyResetOtpResult;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class VerifyResetOtpInteractor implements VerifyResetOtpUseCase {
     private final OtpTokenRepository otpTokenRepository;
     private final PasswordResetTokenPort passwordResetTokenPort;
