@@ -19,11 +19,12 @@ import com.adarsh.backend.shared.domain.exception.InvalidOtpException;
 import com.adarsh.backend.shared.domain.exception.OtpExpiredException;
 import com.adarsh.backend.shared.domain.exception.OtpNotFoundException;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-
+@Transactional
 public class VerifyOtpInteractor implements VerifyOtpUseCase {
     private final OtpTokenRepository otpRepositoryPort;
     private final UserCommandRepository userCommandRepository;
