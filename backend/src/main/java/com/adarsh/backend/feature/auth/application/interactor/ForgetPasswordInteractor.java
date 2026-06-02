@@ -3,6 +3,7 @@ package com.adarsh.backend.feature.auth.application.interactor;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.adarsh.backend.feature.auth.application.dto.ForgetPasswordCommand;
 import com.adarsh.backend.feature.auth.application.usecase.ForgetPasswordUseCase;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ForgetPasswordInteractor implements ForgetPasswordUseCase {
     private final UserCommandRepository userCommandRepository;
     private final OtpTokenRepository otpTokenRepository;
