@@ -65,18 +65,18 @@ public class AuthController {
     }
 
     @PostMapping("/forget-password")
-    public ResponseEntity<String> forgetPassword(ForgetPasswordCommand command) {
+    public ResponseEntity<String> forgetPassword(@RequestBody ForgetPasswordCommand command) {
         forgetPasswordUseCase.execute(command);
         return ResponseEntity.ok("OTP sent to your email");
     }
 
     @PostMapping("/verify-reset-otp")
-    public ResponseEntity<VerifyResetOtpResult> verifyResetOtp(VerifyResetOtpCommand command) {
+    public ResponseEntity<VerifyResetOtpResult> verifyResetOtp(@RequestBody VerifyResetOtpCommand command) {
         return ResponseEntity.ok(verifyResetOtpUseCase.execute(command));
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(ResetPasswordCommand command) {
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordCommand command) {
         resetPasswordUseCase.execute(command);
         return ResponseEntity.ok("Password reset successfully");
     }
