@@ -14,4 +14,24 @@ public class GetUserProfileResult {
         this.profileImageUrl = profileImageUrl;
         this.phone = phone;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
 }
