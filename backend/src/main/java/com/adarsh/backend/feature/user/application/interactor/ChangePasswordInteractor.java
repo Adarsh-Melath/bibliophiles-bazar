@@ -22,7 +22,7 @@ public class ChangePasswordInteractor implements ChangePasswordUseCase {
     public void execute(String email,ChangePasswordCommand command){
         User user=userCommandRepository.findByEmail(email).orElseThrow(()->new UserNotFoundException("User Not Found"));
 
-        if(!passwordEncoder.matches(user.getPassword(),command.getCurrentPassword())){
+        if(!passwordEncoder.matches(command.getCurrentPassword(),user.getPassword())){
             throw new PasswordIncorrectException("Current Password is incorrect");
         }
 
