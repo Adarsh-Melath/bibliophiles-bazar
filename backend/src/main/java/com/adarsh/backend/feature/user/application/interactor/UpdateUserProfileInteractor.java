@@ -6,6 +6,7 @@ import com.adarsh.backend.feature.user.application.dto.UpdateUserProfileCommand;
 import com.adarsh.backend.feature.user.application.dto.UpdateUserProfileResult;
 import com.adarsh.backend.feature.user.application.port.UserCommandRepository;
 import com.adarsh.backend.feature.user.domain.exception.UserNotFoundException;
+import com.adarsh.backend.feature.user.application.usecase.UpdateUserProfileUseCase;
 
 import com.adarsh.backend.feature.user.domain.model.User;
 
