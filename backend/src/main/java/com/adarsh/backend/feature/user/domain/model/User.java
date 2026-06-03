@@ -115,6 +115,7 @@ public class User {
     // 3. The Static Builder Class
     @SuppressWarnings("unused")
     public static class Builder {
+
         private Long id;
 
         private String name;
@@ -221,9 +222,18 @@ public class User {
 
     public void enableAccount() {
         this.enabled = true;
-    }
+        this.updatedAt = LocalDateTime.now();
+    }  
 
     public void changePassword(String password) {
         this.password = password;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void updateProfile(String name, String phone, String profileImageUrl) {
+        this.name = name;
+        this.phone = phone;
+        this.profileImageUrl = profileImageUrl;
+        this.updatedAt = LocalDateTime.now();
     }
 }
