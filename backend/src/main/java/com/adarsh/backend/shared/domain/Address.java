@@ -32,7 +32,6 @@ public class Address {
 
     private LocalDateTime updatedAt;
 
-
     public Address(Builder builder) {
         this.id = builder.id;
         this.userId = builder.userId;
@@ -48,6 +47,10 @@ public class Address {
         this.addressType = builder.addressType;
         this.createdAt = LocalDateTime.now();
 
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder {
@@ -203,7 +206,7 @@ public class Address {
         this.isDefault = false;
     }
 
-   public void updateAddress(String fullName, String phone, String addressLine, String city, String state, String pincode,
+    public void updateAddress(String fullName, String phone, String addressLine, String city, String state, String pincode,
             String addressLine2, String country, String addressType, boolean isDefault) {
         this.fullName = fullName;
         this.phone = phone;
