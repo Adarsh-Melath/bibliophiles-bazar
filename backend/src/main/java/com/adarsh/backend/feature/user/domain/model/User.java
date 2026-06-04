@@ -241,4 +241,14 @@ public class User {
         this.profileImageUrl = profileImageUrl;
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void block() {
+        this.blocked = true;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void unblock() {
+        this.blocked = false;
+        this.updatedAt = LocalDateTime.now();
+    }
 }
