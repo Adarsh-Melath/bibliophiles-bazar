@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @PostMapping("/update-profile")
-    public ResponseEntity<UpdateUserProfileResult> updateProfile(@AuthenticationPrincipal String email,  @RequestBody UpdateUserProfileCommand command){
+    public ResponseEntity<UpdateUserProfileResult> updateProfile(@AuthenticationPrincipal String email, @RequestBody UpdateUserProfileCommand command) {
         UpdateUserProfileResult result = updateUserProfileUseCase.execute(email, command);
         return ResponseEntity.ok(result);
     }
