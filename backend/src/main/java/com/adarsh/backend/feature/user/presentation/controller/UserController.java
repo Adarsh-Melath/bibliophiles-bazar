@@ -18,6 +18,10 @@ import com.adarsh.backend.feature.user.application.dto.UploadUserProfileImageCom
 import com.adarsh.backend.feature.user.application.dto.UploadUserProfileImageResult;
 import com.adarsh.backend.feature.user.application.usecase.UpdateUserProfileUseCase;
 import com.adarsh.backend.feature.user.application.usecase.UploadUserProfileImageUseCase;
+import com.adarsh.backend.feature.user.application.dto.GetAddressResult;
+import com.adarsh.backend.feature.user.application.usecase.GetAddressesUseCase;
+import java.util.List;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +36,7 @@ public class UserController {
     private final ChangePasswordUseCase changePasswordUseCase;
     private final UpdateUserProfileUseCase updateUserProfileUseCase;
     private final UploadUserProfileImageUseCase uploadUserProfileImageUseCase;
+    private final GetAddressesUseCase getUserAddressUseCase;
 
     @GetMapping("/profile")
     public ResponseEntity<GetUserProfileResult> getProfile(@AuthenticationPrincipal String email) {
@@ -48,6 +53,12 @@ public class UserController {
     @PostMapping("/upload-profile-picture")
     public ResponseEntity<UploadUserProfileImageResult> uploadProfilePicture(@AuthenticationPrincipal String email, @RequestBody UploadUserProfileImageCommand command) {
         UploadUserProfileImageResult result = uploadUserProfileImageUseCase.execute(email, command);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/addresses")
+    public ResponseEntity<List<GetAddressResult>> getUserAddresses(@AuthenticationPrincipal String email) {
+        List<GetAddressResult> result = getUserAddressUseCase.execute(email);
         return ResponseEntity.ok(result);
     }
 
