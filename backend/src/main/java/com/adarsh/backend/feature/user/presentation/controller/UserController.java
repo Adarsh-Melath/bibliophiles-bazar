@@ -1,27 +1,35 @@
 package com.adarsh.backend.feature.user.presentation.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.adarsh.backend.feature.user.application.dto.AddAddressCommand;
+import com.adarsh.backend.feature.user.application.dto.AddAddressResult;
 import com.adarsh.backend.feature.user.application.dto.ChangePasswordCommand;
+import com.adarsh.backend.feature.user.application.dto.GetAddressResult;
 import com.adarsh.backend.feature.user.application.dto.GetUserProfileResult;
-import com.adarsh.backend.feature.user.application.usecase.ChangePasswordUseCase;
-import com.adarsh.backend.feature.user.application.usecase.GetUserProfileUseCase;
+import com.adarsh.backend.feature.user.application.dto.UpdateAddressCommand;
+import com.adarsh.backend.feature.user.application.dto.UpdateAddressResult;
 import com.adarsh.backend.feature.user.application.dto.UpdateUserProfileCommand;
 import com.adarsh.backend.feature.user.application.dto.UpdateUserProfileResult;
 import com.adarsh.backend.feature.user.application.dto.UploadUserProfileImageCommand;
 import com.adarsh.backend.feature.user.application.dto.UploadUserProfileImageResult;
+import com.adarsh.backend.feature.user.application.usecase.AddAddressUseCase;
+import com.adarsh.backend.feature.user.application.usecase.ChangePasswordUseCase;
+import com.adarsh.backend.feature.user.application.usecase.GetAddressesUseCase;
+import com.adarsh.backend.feature.user.application.usecase.GetUserProfileUseCase;
+import com.adarsh.backend.feature.user.application.usecase.UpdateAddressUseCase;
 import com.adarsh.backend.feature.user.application.usecase.UpdateUserProfileUseCase;
 import com.adarsh.backend.feature.user.application.usecase.UploadUserProfileImageUseCase;
-import com.adarsh.backend.feature.user.application.dto.GetAddressResult;
-import com.adarsh.backend.feature.user.application.usecase.GetAddressesUseCase;
-import java.util.List;
-
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +45,8 @@ public class UserController {
     private final UpdateUserProfileUseCase updateUserProfileUseCase;
     private final UploadUserProfileImageUseCase uploadUserProfileImageUseCase;
     private final GetAddressesUseCase getUserAddressUseCase;
+    private final AddAddressUseCase addUserAddressUseCase;
+    private final UpdateAddressUseCase updateUserAddressUseCase;
 
     @GetMapping("/profile")
     public ResponseEntity<GetUserProfileResult> getProfile(@AuthenticationPrincipal String email) {
@@ -59,6 +69,18 @@ public class UserController {
     @GetMapping("/addresses")
     public ResponseEntity<List<GetAddressResult>> getUserAddresses(@AuthenticationPrincipal String email) {
         List<GetAddressResult> result = getUserAddressUseCase.execute(email);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/addresses")
+    public ResponseEntity<AddAddressResult> addUserAddress(@AuthenticationPrincipal String email, @RequestBody AddAddressCommand command) {
+        AddAddressResult result = addUserAddressUseCase.execute(email, command);
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/addresses/{id}")
+    public ResponseEntity<UpdateAddressResult> updateUserAddress(@AuthenticationPrincipal String email, @PathVariable Long id, @RequestBody UpdateAddressCommand command) {
+        UpdateAddressResult result = updateUserAddressUseCase.execute(email, id, command);
         return ResponseEntity.ok(result);
     }
 
