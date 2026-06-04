@@ -14,7 +14,10 @@ import com.adarsh.backend.feature.user.application.usecase.ChangePasswordUseCase
 import com.adarsh.backend.feature.user.application.usecase.GetUserProfileUseCase;
 import com.adarsh.backend.feature.user.application.dto.UpdateUserProfileCommand;
 import com.adarsh.backend.feature.user.application.dto.UpdateUserProfileResult;
+import com.adarsh.backend.feature.user.application.dto.UploadUserProfileImageCommand;
+import com.adarsh.backend.feature.user.application.dto.UploadUserProfileImageResult;
 import com.adarsh.backend.feature.user.application.usecase.UpdateUserProfileUseCase;
+import com.adarsh.backend.feature.user.application.usecase.UploadUserProfileImageUseCase;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,7 @@ public class UserController {
     private final GetUserProfileUseCase getUserProfileUseCase;
     private final ChangePasswordUseCase changePasswordUseCase;
     private final UpdateUserProfileUseCase updateUserProfileUseCase;
+    private final UploadUserProfileImageUseCase uploadUserProfileImageUseCase;
 
     @GetMapping("/profile")
     public ResponseEntity<GetUserProfileResult> getProfile(@AuthenticationPrincipal String email) {
@@ -38,6 +42,12 @@ public class UserController {
     @PostMapping("/update-profile")
     public ResponseEntity<UpdateUserProfileResult> updateProfile(@AuthenticationPrincipal String email,  @RequestBody UpdateUserProfileCommand command){
         UpdateUserProfileResult result = updateUserProfileUseCase.execute(email, command);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/upload-profile-picture")
+    public ResponseEntity<UploadUserProfileImageResult> uploadProfilePicture(@AuthenticationPrincipal String email, @RequestBody UploadUserProfileImageCommand command) {
+        UploadUserProfileImageResult result = uploadUserProfileImageUseCase.execute(email, command);
         return ResponseEntity.ok(result);
     }
 
