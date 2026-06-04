@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.adarsh.backend.shared.domain.exception.InvalidOtpException;
+import com.adarsh.backend.shared.domain.exception.MediaUploadException;
 import com.adarsh.backend.shared.domain.exception.OtpExpiredException;
 import com.adarsh.backend.shared.domain.exception.OtpNotFoundException;
 
@@ -16,8 +17,20 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+        @ExceptionHandler(MediaUploadException.class)
+        public ResponseEntity<ErrorResponse> handleMediaUploadException(MediaUploadException ex,
+                        HttpServletRequest request) {
+                ErrorResponse errorResponse = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                                "Media Upload Failed",
+                                ex.getMessage(),
+                                request.getRequestURI());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+
         @ExceptionHandler(OtpExpiredException.class)
-        public ResponseEntity<ErrorResponse> handleOtpNotFoundException(OtpExpiredException ex,
+        public ResponseEntity<ErrorResponse> handleOtpExpiredException(OtpExpiredException ex,
                         HttpServletRequest request) {
                 ErrorResponse errorResponse = new ErrorResponse(
                                 LocalDateTime.now(),
