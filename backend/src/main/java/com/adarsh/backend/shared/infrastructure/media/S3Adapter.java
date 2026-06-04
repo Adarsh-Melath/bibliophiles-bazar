@@ -52,4 +52,11 @@ public class S3Adapter implements ObjectStoragePort {
                 .key(key)
                 .build());
     }
+
+    @Override
+    public String extractKeyFromUrl(String fileUrl){
+        // URL format: https://bucket.s3.region.amazonaws.com/profiles/123-timestamp
+        // Key is everything after the domain
+        return fileUrl.substring(fileUrl.indexOf(".amazonaws.com/") + ".amazonaws.com/".length());
+    }
 }
