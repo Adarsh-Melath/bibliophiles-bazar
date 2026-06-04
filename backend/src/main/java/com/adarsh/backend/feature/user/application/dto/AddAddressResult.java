@@ -3,9 +3,9 @@ package com.adarsh.backend.feature.user.application.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AddAddressResult {
-    
+
     private final Long id;
-    private  final String fullName;
+    private final String fullName;
     private final String phone;
     private final String addressLine;
     private final String city;
