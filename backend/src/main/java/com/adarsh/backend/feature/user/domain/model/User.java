@@ -236,4 +236,9 @@ public class User {
         this.profileImageUrl = profileImageUrl;
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void uploadProfileImage(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+        this.updatedAt = LocalDateTime.now();
+    }
 }
