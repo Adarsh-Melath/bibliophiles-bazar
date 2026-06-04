@@ -1,5 +1,7 @@
 package com.adarsh.backend.shared.domain;
 
+import java.time.LocalDateTime;
+
 public class Address {
 
     private final Long id;
@@ -26,6 +28,11 @@ public class Address {
 
     private String addressType;
 
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+
     public Address(Builder builder) {
         this.id = builder.id;
         this.userId = builder.userId;
@@ -39,6 +46,8 @@ public class Address {
         this.addressLine2 = builder.addressLine2;
         this.country = builder.country;
         this.addressType = builder.addressType;
+        this.createdAt = LocalDateTime.now();
+
     }
 
     public static class Builder {
@@ -176,5 +185,36 @@ public class Address {
 
     public String getAddressType() {
         return addressType;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void markAsDefault() {
+        this.isDefault = true;
+    }
+
+    public void markAsNonDefault() {
+        this.isDefault = false;
+    }
+
+   public void updateAddress(String fullName, String phone, String addressLine, String city, String state, String pincode,
+            String addressLine2, String country, String addressType, boolean isDefault) {
+        this.fullName = fullName;
+        this.phone = phone;
+        this.addressLine = addressLine;
+        this.city = city;
+        this.state = state;
+        this.pincode = pincode;
+        this.addressLine2 = addressLine2;
+        this.country = country;
+        this.addressType = addressType;
+        this.isDefault = isDefault;
+        this.updatedAt = LocalDateTime.now();
     }
 }
