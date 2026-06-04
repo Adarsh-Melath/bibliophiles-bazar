@@ -1,5 +1,7 @@
 package com.adarsh.backend.feature.user.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AddAddressResult {
     
     private final Long id;
@@ -15,7 +17,7 @@ public class AddAddressResult {
     private final String country;
     private final String addressType;
 
-    public GetAddressResult(Long id, String fullName, String phone, String addressLine, String city, String state, String pincode,
+    public AddAddressResult(Long id, String fullName, String phone, String addressLine, String city, String state, String pincode,
             boolean isDefault, String addressLine2, String country, String addressType) {
         this.id = id;
         this.fullName = fullName;
@@ -58,7 +60,7 @@ public class AddAddressResult {
         return pincode;
     }
 
-    public boolean isIsDefault() {
+    public boolean isDefault() {
         return isDefault;
     }
 
