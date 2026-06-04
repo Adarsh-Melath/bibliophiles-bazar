@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import com.adarsh.backend.feature.user.application.dto.UploadUserProfileImageCom
 import com.adarsh.backend.feature.user.application.dto.UploadUserProfileImageResult;
 import com.adarsh.backend.feature.user.application.usecase.AddAddressUseCase;
 import com.adarsh.backend.feature.user.application.usecase.ChangePasswordUseCase;
+import com.adarsh.backend.feature.user.application.usecase.DeleteAddressUseCase;
 import com.adarsh.backend.feature.user.application.usecase.GetAddressesUseCase;
 import com.adarsh.backend.feature.user.application.usecase.GetUserProfileUseCase;
 import com.adarsh.backend.feature.user.application.usecase.UpdateAddressUseCase;
@@ -47,6 +49,7 @@ public class UserController {
     private final GetAddressesUseCase getUserAddressUseCase;
     private final AddAddressUseCase addUserAddressUseCase;
     private final UpdateAddressUseCase updateUserAddressUseCase;
+    private final DeleteAddressUseCase deleteAddressUseCase;
 
     @GetMapping("/profile")
     public ResponseEntity<GetUserProfileResult> getProfile(@AuthenticationPrincipal String email) {
@@ -82,6 +85,12 @@ public class UserController {
     public ResponseEntity<UpdateAddressResult> updateUserAddress(@AuthenticationPrincipal String email, @PathVariable Long id, @RequestBody UpdateAddressCommand command) {
         UpdateAddressResult result = updateUserAddressUseCase.execute(email, id, command);
         return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/addresses/{id}")
+    public ResponseEntity<String> deleteUserAddress(@AuthenticationPrincipal String email, @PathVariable Long id) {
+        deleteAddressUseCase.execute(email, id);
+        return ResponseEntity.ok("Address Deleted Successfully");
     }
 
     @PostMapping("/change-password")
