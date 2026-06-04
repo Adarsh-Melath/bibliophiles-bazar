@@ -7,4 +7,6 @@ public interface ObjectStoragePort {
     String uploadFile(MultipartFile file, String folder);
 
     void deleteFile(String fileUrl);
+
+    String extractKeyFromUrl(String fileUrl);
 }
