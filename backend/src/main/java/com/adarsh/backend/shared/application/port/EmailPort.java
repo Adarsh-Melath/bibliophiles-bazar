@@ -5,5 +5,7 @@ public interface EmailPort {
     void sendOtp(String email, String code);
 
     void sendVendorApplicationConfirmation(String name, String email);
+    
+    void sendVendorApprovalEmail(String name,String email,String tempPassword);
      
 }
