@@ -24,6 +24,10 @@ public class VendorApplication {
 
     private LocalDateTime reviewedAt;
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public VendorApplication(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
@@ -33,7 +37,7 @@ public class VendorApplication {
         this.website = builder.website;
         this.publishingSince = builder.publishingSince;
         this.businessName = builder.businessName;
-        this.businessDescription=builder.businessDescription;
+        this.businessDescription = builder.businessDescription;
         this.category = builder.category;
         this.status = ApplicationStatus.PENDING;
         this.appliedAt = LocalDateTime.now();
