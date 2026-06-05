@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class VendorApplication {
 
-    private Long id;
+    private final Long id;
 
     private final String name;
     private final String email;
@@ -167,8 +167,14 @@ public class VendorApplication {
         return reviewedAt;
     }
 
-    public void approveApplication(){
-        this.status=ApplicationStatus.APPROVED;
-        this.reviewedAt=LocalDateTime.now();
+    public void approveApplication() {
+        this.status = ApplicationStatus.APPROVED;
+        this.reviewedAt = LocalDateTime.now();
+    }
+
+    public void rejectApplication(String reason) {
+        this.rejectionReason = reason;
+        this.status = ApplicationStatus.REJECTED;
+        this.reviewedAt = LocalDateTime.now();
     }
 }
