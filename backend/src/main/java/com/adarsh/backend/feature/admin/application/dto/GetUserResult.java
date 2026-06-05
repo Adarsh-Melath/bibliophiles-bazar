@@ -2,6 +2,8 @@ package com.adarsh.backend.feature.admin.application.dto;
 
 import java.time.LocalDateTime;
 
+import com.adarsh.backend.feature.user.domain.model.User;
+
 public class GetUserResult {
 
     private final Long id;
@@ -54,5 +56,9 @@ public class GetUserResult {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public static GetUserResult fromDomain(User user){
+        return new GetUserResult(user.getId(),user.getName(),user.getEmail(),user.getRole().name(),user.getProvider().name(),user.isEnabled(),user.isBlocked(),user.getCreatedAt());
     }
 }
