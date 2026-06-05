@@ -1,5 +1,8 @@
 package com.adarsh.backend.feature.vendor.infrastructure.persistence.jparepository;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.adarsh.backend.feature.vendor.domain.ApplicationStatus;
@@ -9,7 +12,7 @@ import com.adarsh.backend.feature.vendor.infrastructure.persistence.entity.Vendo
 public interface VendorApplicationJpaRepository extends JpaRepository<VendorApplicationEntity, Long> {
     VendorApplicationEntity save(VendorApplication application);
 
-    Optional<VendorApplication> findById(Long id);
+    Optional<VendorApplicationEntity> findById(Long id);
 
     List<VendorApplicationEntity> findAll();
 
