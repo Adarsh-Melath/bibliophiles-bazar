@@ -20,7 +20,7 @@ public class VendorApplication {
     private ApplicationStatus status;
     private String rejectionReason;
 
-    private LocalDateTime appliedAt;
+    private final LocalDateTime appliedAt;
 
     private LocalDateTime reviewedAt;
 
@@ -167,4 +167,8 @@ public class VendorApplication {
         return reviewedAt;
     }
 
+    public void approveApplication(){
+        this.status=ApplicationStatus.APPROVED;
+        this.reviewedAt=LocalDateTime.now();
+    }
 }
