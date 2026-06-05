@@ -45,4 +45,15 @@ public class SmtpEmailAdapter implements EmailPort {
                 + "\nPassword: " + tempPassword + "\n\nThe Bibliophile's Bazar Team");
         mailSender.send(message);
     }
+
+    @Override
+    public void sendVendorRejectionEmail(String name,String toEmail,String rejectionReason){
+         SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Bibliophile's Bazar — Vendor Application Update");
+        message.setText("Hi " + name + ",\n\nWe regret to inform you that your vendor application has been rejected. "
+                + "Reason: " + rejectionReason
+                + "\n\nThank you for your interest in becoming a vendor on Bibliophile's Bazar.\n\nThe Bibliophile's Bazar Team");
+        mailSender.send(message);
+    }
 }
