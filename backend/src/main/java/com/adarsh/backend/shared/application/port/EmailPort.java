@@ -7,5 +7,7 @@ public interface EmailPort {
     void sendVendorApplicationConfirmation(String name, String email);
     
     void sendVendorApprovalEmail(String name,String email,String tempPassword);
+
+    void sendVendorRejectionEmail(String name,String email,String rejectionReason);
      
 }
