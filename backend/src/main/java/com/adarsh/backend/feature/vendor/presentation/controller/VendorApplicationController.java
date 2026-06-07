@@ -17,7 +17,7 @@ import com.adarsh.backend.feature.vendor.application.usecase.VendorApplicationRe
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/vendor-application")
+@RequestMapping("/api/v1/vendor-applications")
 @RequiredArgsConstructor
 public class VendorApplicationController {
     private final VendorApplicationApplyUseCase vendorApplicationApplyUseCase;
