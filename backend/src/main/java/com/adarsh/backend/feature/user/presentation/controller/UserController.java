@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.adarsh.backend.feature.user.application.dto.AddAddressCommand;
 import com.adarsh.backend.feature.user.application.dto.AddAddressResult;
 import com.adarsh.backend.feature.user.application.dto.ChangePasswordCommand;
-import com.adarsh.backend.feature.user.application.dto.GetAddressResult;
 import com.adarsh.backend.feature.user.application.dto.GetUserProfileResult;
 import com.adarsh.backend.feature.user.application.dto.UpdateAddressCommand;
 import com.adarsh.backend.feature.user.application.dto.UpdateAddressResult;
@@ -32,6 +31,7 @@ import com.adarsh.backend.feature.user.application.usecase.GetUserProfileUseCase
 import com.adarsh.backend.feature.user.application.usecase.UpdateAddressUseCase;
 import com.adarsh.backend.feature.user.application.usecase.UpdateUserProfileUseCase;
 import com.adarsh.backend.feature.user.application.usecase.UploadUserProfileImageUseCase;
+import com.adarsh.backend.shared.application.dto.GetAddressResult;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
