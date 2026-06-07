@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class VendorApplicationInteractor implements VendorApplicationApplyUseCase {
+public class VendorApplicationApplyInteractor implements VendorApplicationApplyUseCase {
     private final UserCommandRepository userCommandRepository;
     private final VendorRepositoryPort vendorRepositoryPort;
     private final EmailPort emailPort;
