@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.adarsh.backend.shared.domain.exception.AddressNotFoundException;
 import com.adarsh.backend.shared.domain.exception.InvalidOtpException;
 import com.adarsh.backend.shared.domain.exception.MediaUploadException;
 import com.adarsh.backend.shared.domain.exception.OtpExpiredException;
@@ -16,6 +17,18 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+        @ExceptionHandler(AddressNotFoundException.class)
+        public ResponseEntity<ErrorResponse> handleAddressNotFoundException(AddressNotFoundException ex,
+                        HttpServletRequest request) {
+                ErrorResponse errorResponse = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.NOT_FOUND.value(),
+                                "Not Found",
+                                ex.getMessage(),
+                                request.getRequestURI());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
 
         @ExceptionHandler(MediaUploadException.class)
         public ResponseEntity<ErrorResponse> handleMediaUploadException(MediaUploadException ex,
