@@ -1,4 +1,4 @@
-package com.adarsh.backend.shared.application.dto;
+package com.adarsh.backend.feature.user.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
