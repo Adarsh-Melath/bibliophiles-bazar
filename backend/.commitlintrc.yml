@@ -1,0 +1,106 @@
+extends:
+  - "@commitlint/config-conventional"
+
+rules:
+  # ------------------------
+  # Type Rules
+  # ------------------------
+  type-enum:
+    - 2
+    - always
+    - - feat
+      - fix
+      - refactor
+      - docs
+      - style
+      - test
+      - chore
+      - ci
+      - build
+      - perf
+      - revert
+      - config
+      - security
+
+  type-case:
+    - 2
+    - always
+    - lower-case
+
+  type-empty:
+    - 2
+    - never
+
+  # ------------------------
+  # Scope Rules
+  # ------------------------
+  scope-empty:
+    - 2
+    - never
+
+  scope-case:
+    - 2
+    - always
+    - lower-case
+
+  # Optional: Restrict scopes to your project modules
+  # scope-enum:
+  #   - 2
+  #   - always
+  #   - auth
+  #     - user
+  #     - admin
+  #     - book
+  #     - category
+  #     - order
+  #     - cart
+  #     - wishlist
+  #     - payment
+  #     - review
+  #     - notification
+  #     - security
+  #     - redis
+  #     - docker
+  #     - logging
+  #     - config
+  #     - ci
+  #     - docs
+
+  # ------------------------
+  # Subject Rules
+  # ------------------------
+  subject-empty:
+    - 2
+    - never
+
+  subject-case:
+    - 2
+    - never
+    - sentence-case
+    - start-case
+    - pascal-case
+    - upper-case
+
+  subject-full-stop:
+    - 2
+    - never
+    - "."
+
+  # ------------------------
+  # Header Rules
+  # ------------------------
+  header-max-length:
+    - 2
+    - always
+    - 72
+
+  # ------------------------
+  # Body Rules
+  # ------------------------
+  body-leading-blank:
+    - 2
+    - always
+
+  footer-leading-blank:
+    - 2
+    - always
