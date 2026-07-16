@@ -22,8 +22,8 @@ public class UserProfileController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserProfileController.class);
 
-    private static GetUserProfileUseCase getUserProfileUseCase;
-    private static UpdateUserProfileUseCase updateUserProfileUseCase;
+    private final GetUserProfileUseCase getUserProfileUseCase;
+    private final UpdateUserProfileUseCase updateUserProfileUseCase;
 
     @GetMapping(UserProfileRoutes.PROFILE)
     public ResponseEntity<GetUserProfileResult> getProfile(Authentication authentication) {
