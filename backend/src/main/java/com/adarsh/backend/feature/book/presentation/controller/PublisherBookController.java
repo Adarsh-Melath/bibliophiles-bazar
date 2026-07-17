@@ -3,12 +3,15 @@ package com.adarsh.backend.feature.book.presentation.controller;
 import com.adarsh.backend.feature.book.application.dto.command.AddBookCommand;
 import com.adarsh.backend.feature.book.application.dto.command.UpdateBookCommand;
 import com.adarsh.backend.feature.book.application.dto.result.AddBookResult;
+import com.adarsh.backend.feature.book.application.dto.result.GetBooksResult;
 import com.adarsh.backend.feature.book.application.dto.result.UpdateBookResult;
 import com.adarsh.backend.feature.book.application.usecase.AddBookUseCase;
 import com.adarsh.backend.feature.book.application.usecase.DeleteBookUseCase;
+import com.adarsh.backend.feature.book.application.usecase.GetPublisherBooksUseCase;
 import com.adarsh.backend.feature.book.application.usecase.UpdateBookUseCase;
 import com.adarsh.backend.feature.book.presentation.constant.apiconstant.PublisherBookControllerConstants;
 import com.adarsh.backend.feature.book.presentation.constant.logconstant.BookControllerLogConstants;
+import com.adarsh.backend.shared.domain.pagination.PageResult;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +28,21 @@ public class PublisherBookController {
     private final AddBookUseCase addBookUseCase;
     private final UpdateBookUseCase updateBookUseCase;
     private final DeleteBookUseCase deleteBookUseCase;
+    private final GetPublisherBooksUseCase getPublisherBooksUseCase;
+
+    @GetMapping
+    public ResponseEntity<PageResult<GetBooksResult>> getPublisherBooks(
+            Authentication authentication,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        String email = authentication.getName();
+        logger.info(BookControllerLogConstants.GET_PUBLISHER_BOOKS_REQUEST, keyword, page, size);
+        PageResult<GetBooksResult> result = getPublisherBooksUseCase.execute(email, keyword, page, size);
+        logger.info(BookControllerLogConstants.GET_PUBLISHER_BOOKS_SUCCESS);
+        return ResponseEntity.ok(result);
+    }
 
     @PostMapping
     public ResponseEntity<AddBookResult> addBook(Authentication authentication, @RequestBody AddBookCommand command) {

@@ -6,6 +6,12 @@ public final class PublicBookControllerConstants {
 
     public static final String BOOK_BY_SLUG_PATH = "/{slug}";
 
+    public static final String DEFAULT_SORT_OPTION = "NEWEST";
+    public static final String DEFAULT_MIN_PRICE = "0";
+    public static final String DEFAULT_MAX_PRICE = "10000";
+    public static final String DEFAULT_PAGE = "0";
+    public static final String DEFAULT_SIZE = "10";
+
     private PublicBookControllerConstants() {
     }
 }

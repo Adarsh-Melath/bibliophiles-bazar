@@ -57,10 +57,22 @@ public class BookRepositoryAdapter implements BookCommandRepositoryPort, BookQue
     }
 
     @Override
+    public PageResult<Book> searchPublisherBooksById(Long publisherId, String keyword, PageQuery query) {
+        Pageable pageable = PageRequest.of(query.page(), query.size(), Sort.by("createdAt").descending());
+
+        Page<BookEntity> springPage = bookJpaRepository.findByPublisherIdAndDeletedFalse(publisherId, keyword, pageable);
+        List<Book> domainBook = springPage.getContent().stream().map(bookPersistenceMapper::toDomain).toList();
+        return new PageResult<>(domainBook, springPage.getNumber(), springPage.getSize(), (int) springPage.getTotalElements(), springPage.getTotalPages());
+    }
+
+    @Override
     public PageResult<Book> searchPublishedBooks(PublishedBookSearchCriteria criteria, PageQuery query) {
         Pageable pageable = PageRequest.of(query.page(), query.size(), toSpringSort(criteria.sortOption()));
 
-        Specification<BookEntity> spec = Specification.where(BookJpaSpecification.keywordContains(criteria.keyword())).and(BookJpaSpecification.categoryNameEquals(criteria.type().name())).and(BookJpaSpecification.priceGreaterThanOrEqual(criteria.minPrice())).and(BookJpaSpecification.priceLessThaOrEqual(criteria.maxPrice()));
+        Specification<BookEntity> spec = Specification.where(BookJpaSpecification.keywordContains(criteria.keyword()))
+                .and(BookJpaSpecification.categoryNameEquals(criteria.type() != null ? criteria.type().name() : null))
+                .and(BookJpaSpecification.priceGreaterThanOrEqual(criteria.minPrice()))
+                .and(BookJpaSpecification.priceLessThaOrEqual(criteria.maxPrice()));
 
         Page<BookEntity> springPage = bookJpaRepository.findAll(spec, pageable);
         List<Book> domainBook = springPage.getContent().stream().map(bookPersistenceMapper::toDomain).toList();

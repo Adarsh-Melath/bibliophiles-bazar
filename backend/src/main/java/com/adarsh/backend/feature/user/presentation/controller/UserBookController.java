@@ -1,6 +1,7 @@
 package com.adarsh.backend.feature.user.presentation.controller;
 
 import com.adarsh.backend.feature.book.domain.model.SortOption;
+import com.adarsh.backend.feature.book.presentation.constant.apiconstant.PublicBookControllerConstants;
 import com.adarsh.backend.feature.category.domain.model.CategoryType;
 import com.adarsh.backend.feature.user.application.dto.result.GetPublishedBooksResult;
 import com.adarsh.backend.feature.user.application.usecase.GetPublishedBooksUseCase;
@@ -26,7 +27,15 @@ public class UserBookController {
     private final GetPublishedBooksUseCase getPublishedBooksUseCase;
 
     @GetMapping(UserBookRoutes.BOOKS)
-    public ResponseEntity<PageResult<GetPublishedBooksResult>> execute(@RequestParam(required = false) String keyword, @RequestParam(defaultValue = "NEWEST") SortOption sortOption, @RequestParam(required = false) CategoryType type, @RequestParam(defaultValue = "0") Double minPrice, @RequestParam(defaultValue = "10000") Double maxPrice, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<PageResult<GetPublishedBooksResult>> execute(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = PublicBookControllerConstants.DEFAULT_SORT_OPTION) SortOption sortOption,
+            @RequestParam(required = false) CategoryType type,
+            @RequestParam(defaultValue = PublicBookControllerConstants.DEFAULT_MIN_PRICE) Double minPrice,
+            @RequestParam(defaultValue = PublicBookControllerConstants.DEFAULT_MAX_PRICE) Double maxPrice,
+            @RequestParam(defaultValue = PublicBookControllerConstants.DEFAULT_PAGE) int page,
+            @RequestParam(defaultValue = PublicBookControllerConstants.DEFAULT_SIZE) int size
+    ) {
         logger.info(UserControllerLogConstants.GET_PUBLISHED_BOOKS_REQUEST, "public-user");
         return ResponseEntity.ok(getPublishedBooksUseCase.execute(keyword, sortOption, type, minPrice, maxPrice, page, size));
     }

@@ -34,6 +34,12 @@ public final class BookInteractorLogConstants {
     public static final String GET_BOOKS_FETCHED =
             "Books fetched successfully, total elements={}";
 
+    // Get Publisher Books
+    public static final String GET_PUBLISHER_BOOKS_REQUEST =
+            "Fetching publisher books for email={}, keyword={}, page={}, size={}";
+    public static final String GET_PUBLISHER_BOOKS_FETCHED =
+            "Publisher books fetched successfully, total elements={}";
+
     // Get Published Books
     public static final String GET_PUBLISHED_BOOKS_REQUEST =
             "Fetching published books with keyword={}, sortOption={}, category={}, minPrice={}, maxPrice={}, page={}, size={}";

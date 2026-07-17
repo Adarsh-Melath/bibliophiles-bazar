@@ -18,6 +18,10 @@ public final class BookControllerLogConstants {
             "Received request to fetch public books with keyword: {}, page: {}, size: {}";
     public static final String GET_BOOKS_SUCCESS =
             "Public books fetched successfully";
+    public static final String GET_PUBLISHER_BOOKS_REQUEST =
+            "Received request to fetch publisher books with keyword: {}, page: {}, size: {}";
+    public static final String GET_PUBLISHER_BOOKS_SUCCESS =
+            "Publisher books fetched successfully";
 
     private BookControllerLogConstants() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated.");

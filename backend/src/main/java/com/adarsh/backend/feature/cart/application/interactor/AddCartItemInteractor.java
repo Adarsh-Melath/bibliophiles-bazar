@@ -8,7 +8,6 @@ import com.adarsh.backend.feature.cart.application.dto.command.AddCartItemComman
 import com.adarsh.backend.feature.cart.application.dto.result.AddCartItemResult;
 import com.adarsh.backend.feature.cart.application.interactor.constant.CartInteractorLogConstants;
 import com.adarsh.backend.feature.cart.application.port.CartCommandRepositoryPort;
-import com.adarsh.backend.feature.cart.application.port.CartItemQueryRepositoryPort;
 import com.adarsh.backend.feature.cart.application.port.CartQueryRepositoryPort;
 import com.adarsh.backend.feature.cart.application.usecase.AddCartItemUseCase;
 import com.adarsh.backend.feature.cart.domain.exception.constant.CartExceptionMessageConstants;
@@ -24,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 @Service
@@ -34,10 +35,10 @@ public class AddCartItemInteractor implements AddCartItemUseCase {
     private final UserCommandRepository userCommandRepository;
     private final CartCommandRepositoryPort cartCommandRepository;
     private final CartQueryRepositoryPort cartQueryRepositoryPort;
-    private final CartItemQueryRepositoryPort cartItemQueryRepositoryPort;
     private final BookQueryRepositoryPort bookQueryRepositoryPort;
 
     @Override
+    @Transactional
     public AddCartItemResult execute(String email, AddCartItemCommand command) {
         logger.info(CartInteractorLogConstants.ADD_CART_ITEM_REQUEST, email, command.slug());
 
@@ -58,7 +59,9 @@ public class AddCartItemInteractor implements AddCartItemUseCase {
             logger.debug(CartInteractorLogConstants.ADD_CART_ITEM_CART_FOUND, cart.getId(), user.getId());
         }
 
-        Optional<CartItem> existingCartItemOpt = cartItemQueryRepositoryPort.findByCartIdAndBookId(cart.getId(), book.getId());
+        Optional<CartItem> existingCartItemOpt = cart.getItems() != null
+                ? cart.getItems().stream().filter(item -> item.getBookId().equals(book.getId())).findFirst()
+                : Optional.empty();
         int requestedQuantity = command.quantity();
         int targetQuantity = existingCartItemOpt.map(item -> item.getQuantity() + requestedQuantity).orElse(requestedQuantity);
 

@@ -32,6 +32,24 @@ public interface BookJpaRepository extends JpaRepository<BookEntity, Long>, JpaS
             """)
     Page<BookEntity> searchBooksAndDeletedFalse(@Param("keyword") String keyword, Pageable pageable);
 
+    @Query("""
+                SELECT b
+                FROM BookEntity b
+                WHERE b.deleted = false
+                  AND b.publisherId = :publisherId
+                  AND (
+                      :keyword IS NULL
+                      OR LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                      OR LOWER(b.isbn) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                      OR LOWER(b.author) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                  )
+            """)
+    Page<BookEntity> findByPublisherIdAndDeletedFalse(
+            @Param("publisherId") Long publisherId,
+            @Param("keyword") String keyword,
+            Pageable pageable
+    );
+
     @NullMarked
     Page<BookEntity> findAll(Specification<BookEntity> specification, Pageable pageable);
 }

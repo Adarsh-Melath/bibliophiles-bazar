@@ -11,5 +11,7 @@ public interface BookQueryRepositoryPort {
 
     PageResult<Book> searchPublisherBooks(PublisherBookSearchCriteria criteria, PageQuery result);
 
+    PageResult<Book> searchPublisherBooksById(Long publisherId, String keyword, PageQuery query);
+
     PageResult<Book> searchPublishedBooks(PublishedBookSearchCriteria criteria, PageQuery query);
 }
