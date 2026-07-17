@@ -231,8 +231,9 @@ public class User {
             return this;
         }
 
-        public void blocked(boolean blocked) {
+        public Builder blocked(boolean blocked) {
             this.blocked = blocked;
+            return this;
         }
 
         public Builder deleted(boolean deleted) {
@@ -245,12 +246,14 @@ public class User {
             return this;
         }
 
-        public void updatedAt(LocalDateTime updatedAt) {
+        public Builder updatedAt(LocalDateTime updatedAt) {
             this.updatedAt = updatedAt;
+            return this;
         }
 
-        public void deletedAt(LocalDateTime deletedAt) {
+        public Builder deletedAt(LocalDateTime deletedAt) {
             this.deletedAt = deletedAt;
+            return this;
         }
 
         // The build method that finally constructs the User
