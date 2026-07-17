@@ -25,8 +25,8 @@ public class UserAccountController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAccountController.class);
 
-    private static ChangePasswordUseCase changePasswordUseCase;
-    private static ChangeEmailUseCase changeEmailUseCase;
+    private final ChangePasswordUseCase changePasswordUseCase;
+    private final ChangeEmailUseCase changeEmailUseCase;
 
     @PutMapping(UserAccountRoutes.PASSWORD)
     public ResponseEntity<String> changePassword(Authentication authentication, @RequestBody ChangePasswordCommand command) {

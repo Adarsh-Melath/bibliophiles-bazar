@@ -29,10 +29,10 @@ public class UserAddressController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAddressController.class);
 
-    private static GetAddressesUseCase getAddressesUseCase;
-    private static AddAddressUseCase addAddressUseCase;
-    private static UpdateAddressUseCase updateAddressUseCase;
-    private static DeleteAddressUseCase deleteAddressUseCase;
+    private final GetAddressesUseCase getAddressesUseCase;
+    private final AddAddressUseCase addAddressUseCase;
+    private final UpdateAddressUseCase updateAddressUseCase;
+    private final DeleteAddressUseCase deleteAddressUseCase;
 
     @GetMapping(UserAddressRoutes.ADDRESSES)
     public ResponseEntity<List<GetAddressResult>> getUserAddresses(Authentication authentication) {
