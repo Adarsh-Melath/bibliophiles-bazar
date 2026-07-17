@@ -1,0 +1,14 @@
+# Ignore everything except target
+.git
+.idea
+.vscode
+src/
+.mvn/
+pom.xml
+Dockerfile
+docker-compose.yml
+mvnw
+mvnw.cmd
+HELP.md
+backend.iml
+backend.main.iml
