@@ -2,7 +2,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-    <property name="LOG_DIR" value="logs" />
+    <property name="LOG_DIR" value="/var/log/app-logs" />
     <property name="LOG_FILE" value="bibliophiles-bazaar" />
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
