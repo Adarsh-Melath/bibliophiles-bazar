@@ -28,6 +28,8 @@ services:
       - MAIL_PASSWORD=${MAIL_PASSWORD}
 
       - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - app-logs:/var/log/app-logs
 
 
   mysqldb:
@@ -74,12 +76,40 @@ services:
     ports:
       - "9090:9090"
   grafana:
-    image: grafana/grafana
-    container_name: grafana
+    image: grafana/grafana:12.2.0
+
     ports:
       - "3000:3000"
+
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - loki
+
+  promtail:
+    image: grafana/promtail:3.5.3
+    volumes:
+      - app-logs:/var/log/app-logs
+      - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yml
+    command: -config.file=/etc/promtail/promtail-config.yml
+    depends_on:
+      - loki
+
+  loki:
+    image: grafana/loki:3.5.3
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/loki-config.yml
+    volumes:
+      - ./loki/loki-config.yml:/etc/loki/loki-config.yml
+      - loki_data:/loki
 volumes:
   mysql_data:
   redis_data:
+  app-logs:
+  grafana_data:
+  loki_data:
