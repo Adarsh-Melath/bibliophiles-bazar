@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-    <property name="LOG_DIR" value="/var/log/app-logs" />
-    <property name="LOG_FILE" value="bibliophiles-bazaar" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="bibliophiles-bazaar"/>
+    <springProperty scope="context" name="env" source="spring.profiles.active" defaultValue="production"/>
+
+    <property name="LOG_DIR" value="/var/log/app-logs"/>
+    <property name="LOG_FILE" value="bibliophiles-bazaar"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>{"timestamp":"%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}","level":"%level","service":"${appName}","environment":"${env}","requestId":"%X{requestId:-}","traceId":"%X{trace_id:-}","spanId":"%X{span_id:-}","userId":"%X{userId:-}","method":"%X{method:-}","path":"%X{path:-}","statusCode":"%X{statusCode:-}","duration":"%X{duration:-}","message":"%replace(%msg){'\n','\\n'}%nopex","exception":"%replace(%xEx){'\n','\\n'}%nopex"}%n</pattern>
+        </encoder>
+    </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR}/${LOG_FILE}.log</file>
@@ -13,12 +23,13 @@
             <totalSizeCap>3GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>{"timestamp":"%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}","level":"%level","service":"${appName}","environment":"${env}","requestId":"%X{requestId:-}","traceId":"%X{trace_id:-}","spanId":"%X{span_id:-}","userId":"%X{userId:-}","method":"%X{method:-}","path":"%X{path:-}","statusCode":"%X{statusCode:-}","duration":"%X{duration:-}","message":"%replace(%msg){'\n','\\n'}%nopex","exception":"%replace(%xEx){'\n','\\n'}%nopex"}%n</pattern>
         </encoder>
     </appender>
+
     <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </root>
-    <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="org.springframework.web" level="INFO"/>
 </configuration>

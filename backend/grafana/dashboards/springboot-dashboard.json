@@ -1,0 +1,216 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Unified observability dashboard for Spring Boot services on Docker — Logs (Loki), RED metrics + JVM stats (Prometheus), distributed traces (Tempo).",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 97,
+      "panels": [],
+      "title": "Application Logs",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 98,
+      "options": {
+        "dedupStrategy": "numbers",
+        "enableInfiniteScrolling": true,
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "editorMode": "code",
+          "expr": "{service_name=\"$application\"} | json",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Live Logs Stream",
+      "type": "logs"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 99,
+      "panels": [],
+      "title": "Application Performance Metrics",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "id": 100,
+      "title": "HTTP Request Rate (Throughput)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\"}[5m]))",
+          "legendFormat": "Total RPS",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "id": 101,
+      "title": "JVM Memory Usage Heap",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "jvm_memory_used_bytes{application=\"$application\", area=\"heap\"}",
+          "legendFormat": "{{id}}",
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "springboot",
+    "docker"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "value": "development"
+        },
+        "hide": 0,
+        "name": "env",
+        "options": [
+          {
+            "selected": true,
+            "value": "development",
+            "text": "development"
+          }
+        ],
+        "query": "development",
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "value": "bibliophiles-bazaar"
+        },
+        "hide": 0,
+        "name": "application",
+        "options": [
+          {
+            "selected": true,
+            "value": "bibliophiles-bazaar",
+            "text": "bibliophiles-bazaar"
+          }
+        ],
+        "query": "bibliophiles-bazaar",
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "value": "backend:8080"
+        },
+        "hide": 0,
+        "name": "instance",
+        "options": [
+          {
+            "selected": true,
+            "value": "backend:8080",
+            "text": "backend:8080"
+          }
+        ],
+        "query": "backend:8080",
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s"
+    ]
+  },
+  "title": "Spring Boot Observability",
+  "version": 1
+}
