@@ -1,5 +1,6 @@
 server:
   http_listen_port: 9080
+  grpc_listen_port: 0
 
 positions:
   filename: /tmp/positions.yaml
@@ -8,13 +9,34 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-  - job_name: spring-boot
-
+  - job_name: app-logs
     static_configs:
       - targets:
           - localhost
-
         labels:
-          application: bibliophiles-bazaar
-          environment: development
+          job: backend
+          service: bibliophiles-bazaar
+          environment: production
           __path__: /var/log/app-logs/*.log
+    pipeline_stages:
+      - json:
+          expressions:
+            timestamp: timestamp
+            level: level
+            service: service
+            environment: environment
+            requestId: requestId
+            traceId: traceId
+            spanId: spanId
+            userId: userId
+            method: method
+            path: path
+            statusCode: statusCode
+            duration: duration
+            message: message
+      - labels:
+          level:
+          service:
+          environment:
+          method:
+          statusCode:

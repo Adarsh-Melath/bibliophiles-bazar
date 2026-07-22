@@ -17,6 +17,9 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
+    properties:
+      hibernate:
+        generate_statistics: true
 
   mail:
     host: smtp.gmail.com
@@ -54,15 +57,19 @@ spring:
 management:
   endpoints:
     web:
+      base-path: /
+      path-mapping:
+        prometheus: metrics
+        health: health
       exposure:
         include: "*"
   endpoint:
     prometheus:
       enabled: true
+    metrics:
+      enabled: false
     health:
       show-details: always
-  security:
-    enabled: false
   metrics:
     export:
       prometheus:
@@ -71,7 +78,25 @@ management:
     metrics:
       export:
         enabled: true
-
+otel:
+  service:
+    name: ${spring.application.name}
+  exporter:
+    otlp:
+      endpoint: http://otel-collector:4318   # Collector HTTP OTLP endpoint
+      protocol: http/protobuf
+  logs:
+    exporter: otlp
+  traces:
+    exporter: otlp
+  metrics:
+    exporter: otlp
+  instrumentation:
+    logback-appender:
+      enabled: true
+      capture-code-attributes: true     # adds code.namespace, code.function to log records
+      capture-arguments: false          # set true to capture log argument values
+      capture-marker-attribute: true
 
 app:
   jwt:
