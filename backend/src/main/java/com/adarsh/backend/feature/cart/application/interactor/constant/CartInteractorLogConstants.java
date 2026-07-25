@@ -11,6 +11,12 @@ public final class CartInteractorLogConstants {
     public static final String ADD_CART_ITEM_SAVED = "Cart item saved successfully with id={}, cartId={}";
     public static final String REMOVE_FROM_WISHLIST = "Removing book id={} from wishlist";
 
+    // Update Cart Item
+    public static final String UPDATE_CART_ITEM_REQUEST = "Updating cart item with id={} to quantity={} for user email={}";
+    public static final String UPDATE_CART_ITEM_USER_FOUND = "User found with id={} for updating cart item";
+    public static final String UPDATE_CART_ITEM_CART_FOUND = "Cart found with id={} for user id={}";
+    public static final String UPDATE_CART_ITEM_SAVED = "Cart item updated successfully with id={}, new quantity={}";
+
     // Delete Cart Item
     public static final String DELETE_CART_ITEM_REQUEST = "Deleting cart item with id={} for user email={}";
     public static final String DELETE_CART_ITEM_FOUND = "Cart item found with id={} for deletion";

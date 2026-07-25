@@ -1,11 +1,14 @@
 package com.adarsh.backend.feature.cart.presentation.controller;
 
 import com.adarsh.backend.feature.cart.application.dto.command.AddCartItemCommand;
+import com.adarsh.backend.feature.cart.application.dto.command.UpdateCartItemCommand;
 import com.adarsh.backend.feature.cart.application.dto.result.AddCartItemResult;
 import com.adarsh.backend.feature.cart.application.dto.result.GetCartItemsResult;
+import com.adarsh.backend.feature.cart.application.dto.result.UpdateCartItemResult;
 import com.adarsh.backend.feature.cart.application.usecase.AddCartItemUseCase;
 import com.adarsh.backend.feature.cart.application.usecase.DeleteCartItemUseCase;
 import com.adarsh.backend.feature.cart.application.usecase.GetCartItemsUseCase;
+import com.adarsh.backend.feature.cart.application.usecase.UpdateCartItemUseCase;
 import com.adarsh.backend.feature.cart.presentation.constant.CartControllerConstants;
 import com.adarsh.backend.feature.cart.presentation.constant.CartControllerLogConstants;
 import jakarta.validation.Valid;
@@ -27,6 +30,7 @@ public class CartController {
     private final AddCartItemUseCase addCartItemUseCase;
     private final DeleteCartItemUseCase deleteCartItemUseCase;
     private final GetCartItemsUseCase getCartItemsUseCase;
+    private final UpdateCartItemUseCase updateCartItemUseCase;
 
     @PostMapping
     public ResponseEntity<AddCartItemResult> addCartItem(Authentication authentication, @Valid @RequestBody AddCartItemCommand command) {
@@ -37,6 +41,19 @@ public class CartController {
         AddCartItemResult result = addCartItemUseCase.execute(email, command);
 
         logger.info(CartControllerLogConstants.ADD_CART_ITEM_SUCCESS, result.id());
+
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping
+    public ResponseEntity<UpdateCartItemResult> updateCartItem(Authentication authentication, @Valid @RequestBody UpdateCartItemCommand command) {
+        String email = authentication.getName();
+
+        logger.info(CartControllerLogConstants.UPDATE_CART_ITEM_REQUEST, email);
+
+        UpdateCartItemResult result = updateCartItemUseCase.updateCartItem(email, command);
+
+        logger.info(CartControllerLogConstants.UPDATE_CART_ITEM_SUCCESS, result.id());
 
         return ResponseEntity.ok(result);
     }

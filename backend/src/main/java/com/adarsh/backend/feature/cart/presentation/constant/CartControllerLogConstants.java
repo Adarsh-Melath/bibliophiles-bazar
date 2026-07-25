@@ -6,6 +6,10 @@ public final class CartControllerLogConstants {
     public static final String ADD_CART_ITEM_REQUEST = "POST /api/v1/cart - Adding cart item for email={}";
     public static final String ADD_CART_ITEM_SUCCESS = "POST /api/v1/cart - Cart item added successfully, id={}";
 
+    // Update Cart Item
+    public static final String UPDATE_CART_ITEM_REQUEST = "PUT /api/v1/cart - Updating cart item for email={}";
+    public static final String UPDATE_CART_ITEM_SUCCESS = "PUT /api/v1/cart - Cart item updated successfully, id={}";
+
     // Delete Cart Item
     public static final String DELETE_CART_ITEM_REQUEST = "DELETE /api/v1/cart/{} - Deleting cart item for email={}";
     public static final String DELETE_CART_ITEM_SUCCESS = "DELETE /api/v1/cart/{} - Cart item deleted successfully";

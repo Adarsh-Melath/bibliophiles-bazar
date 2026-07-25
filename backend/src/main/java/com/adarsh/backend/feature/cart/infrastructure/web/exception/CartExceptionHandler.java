@@ -1,6 +1,8 @@
 package com.adarsh.backend.feature.cart.infrastructure.web.exception;
 
+import com.adarsh.backend.feature.cart.domain.exception.CartAccessDeniedException;
 import com.adarsh.backend.feature.cart.domain.exception.CartItemNotFoundException;
+import com.adarsh.backend.feature.cart.domain.exception.CartNotFoundException;
 import com.adarsh.backend.feature.cart.domain.exception.InsufficientStockException;
 import com.adarsh.backend.feature.cart.domain.exception.CartItemQuantityLimitExceededException;
 import com.adarsh.backend.feature.cart.infrastructure.web.exception.constant.CartExceptionHandlerLogConstants;
@@ -12,17 +14,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class CartExceptionHandler {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(CartExceptionHandler.class);
 
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCartNotFoundException(CartNotFoundException ex, HttpServletRequest request) {
+        logger.warn(CartExceptionHandlerLogConstants.CART_NOT_FOUND);
+
+        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(Clock.systemDefaultZone()), HttpStatus.NOT_FOUND.value(), "NOT_FOUND", ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(CartAccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleCartAccessDeniedException(CartAccessDeniedException ex, HttpServletRequest request) {
+        logger.warn(CartExceptionHandlerLogConstants.CART_ACCESS_DENIED);
+
+        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(Clock.systemDefaultZone()), HttpStatus.FORBIDDEN.value(), "FORBIDDEN", ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+    }
+
     @ExceptionHandler(CartItemNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleCartItemNotFoundException(CartItemNotFoundException ex, HttpServletRequest request) {
         logger.warn(CartExceptionHandlerLogConstants.CART_ITEM_NOT_FOUND);
 
-        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "NOT_FOUND", ex.getMessage(), request.getRequestURI());
+        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(Clock.systemDefaultZone()), HttpStatus.NOT_FOUND.value(), "NOT_FOUND", ex.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
@@ -31,7 +52,7 @@ public class CartExceptionHandler {
     public ResponseEntity<ErrorResponse> handleInsufficientStockException(InsufficientStockException ex, HttpServletRequest request) {
         logger.warn(CartExceptionHandlerLogConstants.INSUFFICIENT_STOCK);
 
-        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), "BAD_REQUEST", ex.getMessage(), request.getRequestURI());
+        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(Clock.systemDefaultZone()), HttpStatus.BAD_REQUEST.value(), "BAD_REQUEST", ex.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
@@ -40,7 +61,7 @@ public class CartExceptionHandler {
     public ResponseEntity<ErrorResponse> handleCartItemQuantityLimitExceededException(CartItemQuantityLimitExceededException ex, HttpServletRequest request) {
         logger.warn(CartExceptionHandlerLogConstants.QUANTITY_LIMIT_EXCEEDED);
 
-        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), "BAD_REQUEST", ex.getMessage(), request.getRequestURI());
+        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(Clock.systemDefaultZone()), HttpStatus.BAD_REQUEST.value(), "BAD_REQUEST", ex.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }

@@ -2,6 +2,10 @@ package com.adarsh.backend.feature.cart.domain.exception.constant;
 
 public final class CartExceptionMessageConstants {
 
+    public static final String CART_NOT_FOUND =
+            "Cart not found";
+    public static final String CART_ACCESS_DENIED =
+            "Access denied to cart";
     public static final String CART_ITEM_NOT_FOUND =
             "Cart item not found";
     public static final String INSUFFICIENT_STOCK =
