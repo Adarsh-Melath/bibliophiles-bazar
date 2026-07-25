@@ -9,6 +9,7 @@ public final class CartInteractorLogConstants {
     public static final String ADD_CART_ITEM_CART_CREATED = "New cart created with id={} for user id={}";
     public static final String ADD_CART_ITEM_CART_FOUND = "Cart found with id={} for user id={}";
     public static final String ADD_CART_ITEM_SAVED = "Cart item saved successfully with id={}, cartId={}";
+    public static final String REMOVE_FROM_WISHLIST = "Removing book id={} from wishlist";
 
     // Delete Cart Item
     public static final String DELETE_CART_ITEM_REQUEST = "Deleting cart item with id={} for user email={}";

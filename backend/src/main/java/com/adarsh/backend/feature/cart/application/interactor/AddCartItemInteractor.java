@@ -19,6 +19,9 @@ import com.adarsh.backend.feature.user.application.port.UserCommandRepository;
 import com.adarsh.backend.feature.user.domain.exception.UserNotFoundException;
 import com.adarsh.backend.feature.user.domain.exception.constant.UserExceptionMessageConstants;
 import com.adarsh.backend.feature.user.domain.model.User;
+import com.adarsh.backend.feature.wishlist.application.port.WishlistItemCommandRepositoryPort;
+import com.adarsh.backend.feature.wishlist.application.port.WishlistItemQueryRepositoryPort;
+import com.adarsh.backend.feature.wishlist.domain.model.WishlistItem;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,8 @@ public class AddCartItemInteractor implements AddCartItemUseCase {
     private final CartCommandRepositoryPort cartCommandRepository;
     private final CartQueryRepositoryPort cartQueryRepositoryPort;
     private final BookQueryRepositoryPort bookQueryRepositoryPort;
+    private final WishlistItemQueryRepositoryPort wishlistItemQueryRepositoryPort;
+    private final WishlistItemCommandRepositoryPort wishlistItemCommandRepositoryPort;
 
     @Override
     @Transactional
@@ -48,6 +53,12 @@ public class AddCartItemInteractor implements AddCartItemUseCase {
         Book book = bookQueryRepositoryPort.findBySlug(command.slug()).orElseThrow(() -> new BookNotFoundException(BookExceptionMessageConstants.BOOK_NOT_FOUND));
         logger.debug(CartInteractorLogConstants.ADD_CART_ITEM_BOOK_FOUND, book.getId());
 
+        WishlistItem wishlistItem = wishlistItemQueryRepositoryPort.findById(book.getId()).orElse(null);
+        if (wishlistItem != null) {
+            wishlistItemCommandRepositoryPort.deleteByWishlistItemIdAndWishlistId(wishlistItem.getId(), wishlistItem.getWishlistId());
+            logger.debug(CartInteractorLogConstants.REMOVE_FROM_WISHLIST, book.getId());
+        }
+
         Cart cart = cartQueryRepositoryPort.findByUserId(user.getId()).orElseGet(() -> {
             Cart newCart = new Cart.Builder().userId(user.getId()).build();
             Cart savedCart = cartCommandRepository.save(newCart);
@@ -59,9 +70,7 @@ public class AddCartItemInteractor implements AddCartItemUseCase {
             logger.debug(CartInteractorLogConstants.ADD_CART_ITEM_CART_FOUND, cart.getId(), user.getId());
         }
 
-        Optional<CartItem> existingCartItemOpt = cart.getItems() != null
-                ? cart.getItems().stream().filter(item -> item.getBookId().equals(book.getId())).findFirst()
-                : Optional.empty();
+        Optional<CartItem> existingCartItemOpt = cart.getItems() != null ? cart.getItems().stream().filter(item -> item.getBookId().equals(book.getId())).findFirst() : Optional.empty();
         int requestedQuantity = command.quantity();
         int targetQuantity = existingCartItemOpt.map(item -> item.getQuantity() + requestedQuantity).orElse(requestedQuantity);
 
