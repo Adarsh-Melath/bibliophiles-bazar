@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Invoice - Bibliophiles Bazar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #111827;
+            background-color: #F9FAFB;
+            margin: 0;
+            padding: 40px 20px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .invoice-box {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 48px;
+            border-radius: 12px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Monochrome Watermark */
+        .paid-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            border: 6px dashed #111827;
+            color: #111827;
+            font-size: 80px;
+            font-weight: 700;
+            padding: 10px 30px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            opacity: 0.04;
+            letter-spacing: 5px;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /* Header section split */
+        .invoice-header {
+            display: table;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .header-left {
+            display: table-cell;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .header-right {
+            display: table-cell;
+            text-align: right;
+            vertical-align: top;
+        }
+
+        .header-left h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000000;
+            margin: 0 0 16px 0;
+            letter-spacing: -0.03em;
+        }
+
+        .invoice-meta-info {
+            font-size: 14px;
+            color: #4B5563;
+            line-height: 1.6;
+        }
+
+        .invoice-meta-info strong {
+            color: #111827;
+        }
+
+        .company-logo-container {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .company-logo-container svg {
+            color: #111827;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            vertical-align: middle;
+        }
+
+        .company-details {
+            font-size: 13px;
+            color: #4B5563;
+            line-height: 1.5;
+        }
+
+        /* Divider line */
+        .divider {
+            border: 0;
+            border-top: 1px solid #E5E7EB;
+            margin: 32px 0;
+        }
+
+        /* Cards Section */
+        .info-cards {
+            display: table;
+            width: 100%;
+            margin-bottom: 40px;
+            border-spacing: 24px 0;
+            margin-left: -24px;
+            margin-right: -24px;
+        }
+
+        .info-card {
+            display: table-cell;
+            width: 50%;
+            background: #ffffff;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 24px;
+            vertical-align: top;
+        }
+
+        .info-card-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6B7280;
+            margin-bottom: 16px;
+        }
+
+        .info-card-title svg {
+            color: #111827;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        .info-card-title span {
+            vertical-align: middle;
+        }
+
+        .info-card-content {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .info-card-content strong {
+            color: #111827;
+        }
+
+        .info-card-item {
+            margin-bottom: 8px;
+        }
+
+        .info-card-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-card-item svg {
+            color: #6B7280;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .info-card-item span {
+            vertical-align: middle;
+        }
+
+        /* Monochrome Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid #111827;
+            background-color: #111827;
+            color: #ffffff;
+        }
+
+        .status-paid {
+            background-color: #111827;
+            color: #ffffff;
+            border: 1px solid #111827;
+        }
+
+        .status-pending {
+            background-color: #ffffff;
+            color: #111827;
+            border: 1px solid #111827;
+        }
+
+        .status-failed, .status-cancelled {
+            background-color: #ffffff;
+            color: #9CA3AF;
+            border: 1px dashed #9CA3AF;
+        }
+
+        /* Table styling */
+        .table-container {
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        table th {
+            background: #F9FAFB;
+            color: #111827;
+            font-weight: 600;
+            padding: 16px 24px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        table td {
+            padding: 18px 24px;
+            border-bottom: 1px solid #E5E7EB;
+            color: #374151;
+            vertical-align: middle;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table tbody tr:hover {
+            background-color: #F9FAFB;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #FAFAFA;
+        }
+
+        table tbody tr:nth-child(even):hover {
+            background-color: #F9FAFB;
+        }
+
+        /* Book cover design in grayscale */
+        .book-desc-cell {
+            display: table;
+            width: 100%;
+        }
+
+        .book-cover-container {
+            display: table-cell;
+            width: 48px;
+            vertical-align: middle;
+        }
+
+        .book-cover-mini {
+            width: 44px;
+            height: 62px;
+            border-radius: 4px;
+            background: #ffffff;
+            border: 1.5px solid #111827;
+            position: relative;
+            text-align: center;
+        }
+
+        .book-spine {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #111827;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .book-cover-emoji {
+            line-height: 62px;
+            font-size: 18px;
+            color: #111827;
+        }
+
+        .book-meta {
+            display: table-cell;
+            padding-left: 16px;
+            vertical-align: middle;
+        }
+
+        .book-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .book-isbn {
+            font-size: 12px;
+            color: #6B7280;
+        }
+
+        .qty-badge {
+            background: #ffffff;
+            color: #111827;
+            border: 1px solid #D1D5DB;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Summary Box */
+        .summary-container {
+            display: table;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .summary-spacer {
+            display: table-cell;
+            width: 60%;
+        }
+
+        .summary-card-cell {
+            display: table-cell;
+            width: 40%;
+            vertical-align: top;
+        }
+
+        .summary-card {
+            background: #ffffff;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .summary-row {
+            display: table;
+            width: 100%;
+            font-size: 14px;
+            color: #4B5563;
+            margin-bottom: 12px;
+        }
+
+        .summary-row-label {
+            display: table-cell;
+            text-align: left;
+        }
+
+        .summary-row-val {
+            display: table-cell;
+            text-align: right;
+            font-weight: 500;
+            color: #111827;
+        }
+
+        .summary-divider {
+            border: 0;
+            border-top: 1px solid #E5E7EB;
+            margin: 16px 0;
+        }
+
+        .grand-total-row {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .grand-total-row .summary-row-label {
+            color: #000000;
+        }
+
+        .grand-total-row .summary-row-val {
+            color: #000000 !important;
+            font-size: 20px;
+        }
+
+        /* Footer Section */
+        .invoice-footer {
+            text-align: center;
+            margin-top: 56px;
+        }
+
+        .thank-you-msg {
+            font-size: 15px;
+            color: #111827;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .support-info {
+            font-size: 13px;
+            color: #4B5563;
+            line-height: 1.6;
+        }
+
+        .support-info a {
+            color: #000000;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .computer-generated-note {
+            font-size: 11px;
+            color: #9CA3AF;
+            margin-top: 32px;
+        }
+
+        /* Extra Info / Verification Row */
+        .verification-row {
+            display: table;
+            width: 100%;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .qr-code-cell {
+            display: table-cell;
+            text-align: left;
+            vertical-align: bottom;
+        }
+
+        .timestamp-cell {
+            display: table-cell;
+            text-align: right;
+            vertical-align: bottom;
+        }
+
+        .qr-code-placeholder {
+            display: inline-block;
+            text-align: left;
+        }
+
+        .qr-code-box {
+            width: 72px;
+            height: 72px;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            background: #ffffff;
+            padding: 6px;
+            margin-bottom: 8px;
+        }
+
+        .qr-code-box svg {
+            color: #111827;
+            width: 100%;
+            height: 100%;
+        }
+
+        .verification-text {
+            font-size: 10px;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .timestamp-info {
+            font-size: 12px;
+            color: #9CA3AF;
+            line-height: 1.5;
+        }
+
+        /* Print styles optimization */
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 0;
+                margin: 0;
+            }
+            .invoice-box {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .divider {
+                margin: 24px 0;
+            }
+            .info-card {
+                padding: 16px;
+            }
+            table th {
+                padding: 12px 16px;
+            }
+            table td {
+                padding: 12px 16px;
+            }
+            .summary-card {
+                padding: 16px;
+            }
+            .verification-row {
+                margin-top: 24px;
+                padding-top: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="invoice-box">
+    <!-- Background Paid Watermark -->
+    <div class="paid-watermark" th:if="${#strings.toString(order.paymentStatus) == 'PAID'}">PAID</div>
+
+    <!-- Header -->
+    <div class="invoice-header">
+        <div class="header-left">
+            <h1>INVOICE</h1>
+            <div class="invoice-meta-info">
+                <strong>Invoice No:</strong> <span th:text="${order.orderNumber}">ORD-123</span><br/>
+                <strong>Date:</strong> <span th:text="${#temporals.format(order.createdAt, 'MMMM dd, yyyy')}">January 01, 2026</span><br/>
+                <strong>Status:</strong> 
+                <span class="status-badge" 
+                      th:classappend="${#strings.toString(order.paymentStatus) == 'PAID' ? 'status-paid' : 
+                                      (#strings.toString(order.paymentStatus) == 'PENDING' ? 'status-pending' : 'status-failed')}"
+                      th:text="${order.paymentStatus}">PAID</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-right-company">
+                <div class="company-logo-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    <span class="company-name">Bibliophiles Bazar</span>
+                </div>
+                <div class="company-details">
+                    123 Bookworm Lane<br/>
+                    Tech City, TX 75001<br/>
+                    support@bibliophilesbazar.com<br/>
+                    +1 (555) 019-2834<br/>
+                    www.bibliophilesbazar.com
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <!-- Info Cards Container -->
+    <div class="info-cards">
+        <!-- Billing Information -->
+        <div class="info-card">
+            <div class="info-card-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Billed To</span>
+            </div>
+            <div class="info-card-content">
+                <strong><span th:text="${customerName}">John Doe</span></strong><br/>
+                <div class="info-card-item" style="margin-top: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>
+                        <span th:text="${order.addressSnapshot.streetLine1}">123 Main St</span><br/>
+                        <span style="padding-left: 21px;" th:text="${order.addressSnapshot.city + ', ' + order.addressSnapshot.stateProvince + ' ' + order.addressSnapshot.postalCode}">City, State 12345</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Information -->
+        <div class="info-card">
+            <div class="info-card-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                <span>Order Information</span>
+            </div>
+            <div class="info-card-content">
+                <div class="info-card-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg>
+                    <strong>Order Number:</strong> <span th:text="${order.orderNumber}">ORD-123</span>
+                </div>
+                <div class="info-card-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 2v4"/><path d="M16 2v4"/></svg>
+                    <strong>Order Date:</strong> <span th:text="${#temporals.format(order.createdAt, 'MMMM dd, yyyy')}">January 01, 2026</span>
+                </div>
+                <div class="info-card-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                    <strong>Payment Method:</strong> <span th:text="${#strings.replace(#strings.toString(order.paymentMethod), '_', ' ')}">CASH ON DELIVERY</span>
+                </div>
+                <div class="info-card-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 9.7a1 1 0 0 1-.68 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 .76-.97l8-2a1 1 0 0 1 .48 0l8 2A1 1 0 0 1 20 6Z"/><path d="m9 12 2 2 4-4"/></svg>
+                    <strong>Order Status:</strong> <span th:text="${order.orderStatus}">CONFIRMED</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Table -->
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Book Details</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-right">Unit Price</th>
+                <th class="text-right">Total Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${order.orderItemList}">
+                <td>
+                    <div class="book-desc-cell">
+                        <div class="book-cover-container">
+                            <div class="book-cover-mini">
+                                <div class="book-spine"></div>
+                                <span class="book-cover-emoji">📖</span>
+                            </div>
+                        </div>
+                        <div class="book-meta">
+                            <span class="book-title" th:text="${item.bookTitle}">Book Title</span>
+                            <span class="book-isbn" th:text="'ISBN: ' + ${item.isbn}">ISBN: 12345</span>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span class="qty-badge" th:text="${item.quantity}">1</span>
+                </td>
+                <td class="text-right" th:text="'$' + ${item.unitPrice}">$10.00</td>
+                <td class="text-right" th:text="'$' + ${item.totalPrice}">$10.00</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Summary Box Layout -->
+    <div class="summary-container">
+        <div class="summary-spacer"></div>
+        <div class="summary-card-cell">
+            <div class="summary-card">
+                <div class="summary-row">
+                    <span class="summary-row-label">Subtotal</span>
+                    <span class="summary-row-val" th:text="'$' + ${order.subtotal}">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-row-label">Shipping</span>
+                    <span class="summary-row-val">Free</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-row-label">Tax</span>
+                    <span class="summary-row-val">$0.00 (Included)</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row grand-total-row">
+                    <span class="summary-row-label">Grand Total</span>
+                    <span class="summary-row-val" th:text="'$' + ${order.grandTotal}">$0.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="invoice-footer">
+        <div class="thank-you-msg">Thank you for shopping at Bibliophiles Bazar!</div>
+        <div class="support-info">
+            Need help? Contact our support team at <a href="mailto:support@bibliophilesbazar.com">support@bibliophilesbazar.com</a>
+        </div>
+        <div style="margin-top: 16px; font-size: 12px; color: #9CA3AF;">
+            <strong>Generated On:</strong> <span th:text="${#temporals.format(#temporals.createNow(), 'MMMM dd, yyyy HH:mm:ss')}">July 29, 2026 15:23:45</span>
+        </div>
+        <div class="computer-generated-note">
+            This invoice is computer generated and does not require a signature.
+        </div>
+    </div>
+</div>
+</body>
+</html>
