@@ -7,7 +7,7 @@ import com.adarsh.backend.shared.domain.pagination.PageResult;
 import java.util.Optional;
 
 public interface OrderQueryRepositoryPort {
-    PageResult<Order> search(PageQuery pageQuery, SearchCustomerOrdersCriteria criteria);
+    PageResult<Order> search(PageQuery pageQuery, OrderSearchCriteria criteria);
 
     Optional<Order> findByUserIdAndOrderId(Long userId, Long orderId);
 }

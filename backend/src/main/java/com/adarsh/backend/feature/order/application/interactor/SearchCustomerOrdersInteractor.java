@@ -2,7 +2,9 @@ package com.adarsh.backend.feature.order.application.interactor;
 
 import com.adarsh.backend.feature.order.application.dto.result.SearchCustomerOrdersResult;
 import com.adarsh.backend.feature.order.application.port.OrderQueryRepositoryPort;
-import com.adarsh.backend.feature.order.application.port.SearchCustomerOrdersCriteria;
+import com.adarsh.backend.feature.order.application.port.OrderSearchCriteria;
+import com.adarsh.backend.feature.order.domain.model.OrderStatus;
+import com.adarsh.backend.feature.order.domain.model.OrderSortOption;
 import com.adarsh.backend.feature.order.application.usecase.SearchCustomerOrdersUseCase;
 import com.adarsh.backend.feature.order.domain.model.Order;
 import com.adarsh.backend.feature.user.application.port.UserQueryRepository;
@@ -17,6 +19,8 @@ import com.adarsh.backend.feature.order.application.interactor.constant.OrderInt
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class SearchCustomerOrdersInteractor implements SearchCustomerOrdersUseCase {
@@ -26,12 +30,12 @@ public class SearchCustomerOrdersInteractor implements SearchCustomerOrdersUseCa
 
 
     @Override
-    public PageResult<SearchCustomerOrdersResult> execute(String email, String keyword, int page, int size) {
+    public PageResult<SearchCustomerOrdersResult> execute(String email, String keyword, OrderStatus orderStatus, LocalDateTime startDate, LocalDateTime endDate, int page, int size, OrderSortOption sortOption) {
         logger.info(OrderInteractorLogConstants.SEARCH_ORDERS_REQUEST, email, page, size);
         User user = userQueryRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(UserExceptionMessageConstants.USER_NOT_FOUND));
         logger.debug(OrderInteractorLogConstants.SEARCH_ORDERS_USER_FOUND, user.getId());
         PageQuery query = new PageQuery(page, size);
-        SearchCustomerOrdersCriteria criteria = new SearchCustomerOrdersCriteria(user.getId(), keyword);
+        OrderSearchCriteria criteria = new OrderSearchCriteria.Builder().customerId(user.getId()).keyword(keyword).orderStatus(orderStatus).startDate(startDate).endDate(endDate).sortOption(sortOption).build();
         PageResult<Order> domainPage = orderQueryRepositoryPort.search(query, criteria);
 
         PageResult<SearchCustomerOrdersResult> result = domainPage.map(SearchCustomerOrdersResult::fromDomain);

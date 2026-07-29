@@ -55,6 +55,14 @@ public final class OrderInteractorLogConstants {
     public static final String SEARCH_ORDERS_USER_FOUND = "User found with id={} for searching orders";
     public static final String SEARCH_ORDERS_SUCCESS = "Retrieved {} orders successfully for user id={}";
 
+    // Search Admin Orders
+    public static final String SEARCH_ADMIN_ORDERS_REQUEST = "Admin request to search orders: keyword={}, status={}, customerId={}";
+    public static final String SEARCH_ADMIN_ORDERS_SUCCESS = "Admin retrieved {} orders successfully";
+
+    // Search Vendor Orders
+    public static final String SEARCH_VENDOR_ORDERS_REQUEST = "Vendor request to search orders: email={}, itemStatus={}";
+    public static final String SEARCH_VENDOR_ORDERS_SUCCESS = "Vendor retrieved {} orders successfully";
+
     private OrderInteractorLogConstants() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated.");
     }
