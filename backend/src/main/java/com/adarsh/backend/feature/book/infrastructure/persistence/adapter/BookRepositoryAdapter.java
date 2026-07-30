@@ -48,6 +48,11 @@ public class BookRepositoryAdapter implements BookCommandRepositoryPort, BookQue
     }
 
     @Override
+    public Optional<Book> findById(Long id) {
+        return bookJpaRepository.findById(id).map(bookPersistenceMapper::toDomain);
+    }
+
+    @Override
     public PageResult<Book> searchPublisherBooks(PublisherBookSearchCriteria criteria, PageQuery query) {
         Pageable pageable = PageRequest.of(query.page(), query.size(), Sort.by("createdAt").descending());
 
@@ -88,5 +93,10 @@ public class BookRepositoryAdapter implements BookCommandRepositoryPort, BookQue
             case NEWEST -> Sort.by("createdAt").descending();
             case OLDEST -> Sort.by("createdAt").ascending();
         };
+    }
+
+    @Override
+    public List<Long> findBookIdsByPublisherId(Long publisherId) {
+        return bookJpaRepository.findBookIdsByPublisherId(publisherId);
     }
 }

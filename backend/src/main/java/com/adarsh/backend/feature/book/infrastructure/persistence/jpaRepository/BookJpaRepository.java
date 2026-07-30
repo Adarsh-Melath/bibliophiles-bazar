@@ -52,4 +52,7 @@ public interface BookJpaRepository extends JpaRepository<BookEntity, Long>, JpaS
 
     @NullMarked
     Page<BookEntity> findAll(Specification<BookEntity> specification, Pageable pageable);
+
+    @Query("SELECT b.id FROM BookEntity b WHERE b.deleted = false AND b.publisherId = :publisherId")
+    java.util.List<Long> findBookIdsByPublisherId(@Param("publisherId") Long publisherId);
 }
