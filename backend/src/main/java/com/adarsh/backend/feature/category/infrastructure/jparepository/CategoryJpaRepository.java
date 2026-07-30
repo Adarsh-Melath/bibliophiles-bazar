@@ -15,6 +15,8 @@ public interface CategoryJpaRepository extends JpaRepository<CategoryEntity, Lon
 
     boolean existsByType(CategoryType type);
 
+    Optional<CategoryEntity> findByType(CategoryType type);
+
     Optional<CategoryEntity> findBySlug(String slug);
 
     @Query("SELECT c FROM CategoryEntity c WHERE " + "(c.deleted IS NULL OR c.deleted = false) " + "AND (:keyword IS NULL OR LOWER(c.type) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(c.slug) " + "LIKE LOWER(CONCAT('%', :keyword, '%'))) ")

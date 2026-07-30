@@ -39,6 +39,16 @@ public class CategoryRepositoryAdapter implements CategoryCommandPort, CategoryQ
     }
 
     @Override
+    public Optional<Category> findById(Long id) {
+        return jpa.findById(id).map(mapper::toDomain);
+    }
+
+    @Override
+    public Optional<Category> findByType(CategoryType type) {
+        return jpa.findByType(type).map(mapper::toDomain);
+    }
+
+    @Override
     public Optional<Category> findBySlug(String slug) {
         Optional<CategoryEntity> categoryEntity = jpa.findBySlug(slug);
         return categoryEntity.map(mapper::toDomain);
@@ -53,5 +63,4 @@ public class CategoryRepositoryAdapter implements CategoryCommandPort, CategoryQ
 
         return new PageResult<>(domainCategories, springPage.getNumber(), springPage.getSize(), (int) springPage.getTotalElements(), springPage.getTotalPages());
     }
-
 }
