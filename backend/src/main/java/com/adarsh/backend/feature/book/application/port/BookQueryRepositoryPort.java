@@ -9,9 +9,13 @@ import java.util.Optional;
 public interface BookQueryRepositoryPort {
     Optional<Book> findBySlug(String slug);
 
+    Optional<Book> findById(Long id);
+
     PageResult<Book> searchPublisherBooks(PublisherBookSearchCriteria criteria, PageQuery result);
 
     PageResult<Book> searchPublisherBooksById(Long publisherId, String keyword, PageQuery query);
 
     PageResult<Book> searchPublishedBooks(PublishedBookSearchCriteria criteria, PageQuery query);
+
+    java.util.List<Long> findBookIdsByPublisherId(Long publisherId);
 }
