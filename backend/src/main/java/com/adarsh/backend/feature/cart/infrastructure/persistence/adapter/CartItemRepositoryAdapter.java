@@ -33,4 +33,10 @@ public class CartItemRepositoryAdapter implements CartItemCommandRepositoryPort,
     public void deleteByCartIdAndCartItemId(Long cartId, Long cartItemId) {
         cartItemJpaRepository.deleteByCartIdAndCartItemId(cartId, cartItemId);
     }
+
+    @Override
+    @Transactional
+    public void deleteByCartId(Long cartId) {
+        cartItemJpaRepository.deleteByCartId(cartId);
+    }
 }
