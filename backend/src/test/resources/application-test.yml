@@ -16,3 +16,35 @@ spring:
   sql:
     init:
       mode: never
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: dummy-google-client-id
+            client-secret: dummy-google-client-secret
+
+  mail:
+    host: localhost
+    port: 587
+    username: dummy-mail-user
+    password: dummy-mail-password
+
+app:
+  jwt:
+    secret: B1b1l0ph1l3sBaz4r$3cr3tK3y2024!XyZ@9
+    expiration: 900000
+    refresh-expiration: 604800000
+    frontend-url: http://localhost:5173
+
+aws:
+  region: eu-north-1
+  accessKey: dummy-access-key
+  secretKey: dummy-secret-key
+  s3:
+    bucket: dummy-bucket
+
+logging:
+  file:
+    path: target/logs

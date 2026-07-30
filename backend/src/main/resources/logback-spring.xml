@@ -6,7 +6,7 @@
     <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="bibliophiles-bazaar"/>
     <springProperty scope="context" name="env" source="spring.profiles.active" defaultValue="production"/>
 
-    <property name="LOG_DIR" value="/var/log/app-logs"/>
+    <springProperty scope="context" name="LOG_DIR" source="logging.file.path" defaultValue="logs"/>
     <property name="LOG_FILE" value="bibliophiles-bazaar"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
