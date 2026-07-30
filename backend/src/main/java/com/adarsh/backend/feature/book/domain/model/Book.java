@@ -1,6 +1,7 @@
 package com.adarsh.backend.feature.book.domain.model;
 
 import com.adarsh.backend.feature.category.domain.model.CategoryType;
+import com.adarsh.backend.feature.book.domain.exception.constant.BookExceptionMessageConstants;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -120,12 +121,28 @@ public class Book {
         this.stock = stock;
         this.language = language;
         this.pages = pages;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now(Clock.systemDefaultZone());
     }
 
     public void softDelete() {
         this.deleted = true;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now(Clock.systemDefaultZone());
+    }
+
+    public void updateStock(int stock) {
+        this.stock = stock;
+        this.updatedAt = LocalDateTime.now(Clock.systemDefaultZone());
+    }
+
+    public void deductStock(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException(BookExceptionMessageConstants.INVALID_DEDUCT_QUANTITY);
+        }
+        if (this.stock < quantity) {
+            throw new IllegalArgumentException(BookExceptionMessageConstants.INSUFFICIENT_STOCK);
+        }
+        this.stock -= quantity;
+        this.updatedAt = LocalDateTime.now(Clock.systemDefaultZone());
     }
 
     public static class Builder {
@@ -210,7 +227,7 @@ public class Book {
             return this;
         }
 
-        public Builder createdAt(LocalDateTime createdAt) {
+        public Builder createdAt() {
             return this;
         }
 
