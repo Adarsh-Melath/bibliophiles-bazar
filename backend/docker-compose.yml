@@ -29,6 +29,7 @@ services:
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - LOGGING_FILE_PATH=/var/log/app-logs
+      - DOPPLER_TOKEN=${DOPPLER_TOKEN}
     volumes:
       - app-logs:/var/log/app-logs
 
